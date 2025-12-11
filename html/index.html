@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Land of Wolves - Law Enforcement System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Cinzel:wght@400;600;700&family=Courier+Prime:wght@400;700&family=Dawning+of+a+New+Day&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/western-ui.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div id="law-system" class="hidden">
+        <!-- Header with Branding -->
+        <header class="western-header">
+            <div class="header-ornament left"></div>
+            <div class="header-content">
+                <h1 class="western-title">
+                    <span class="sheriff-star">★</span>
+                    The Land of Wolves
+                    <span class="sheriff-star">★</span>
+                </h1>
+                <h2 class="western-subtitle">Law Enforcement System - 1899</h2>
+            </div>
+            <div class="header-ornament right"></div>
+        </header>
+
+        <!-- Main Navigation Tabs -->
+        <nav class="western-nav">
+            <button class="nav-tab active" data-tab="dashboard">
+                <span class="nav-icon">🏛️</span>
+                <span class="nav-label">Dashboard</span>
+            </button>
+            <button class="nav-tab" data-tab="records">
+                <span class="nav-icon">📖</span>
+                <span class="nav-label">Records</span>
+            </button>
+            <button class="nav-tab" data-tab="wanted">
+                <span class="nav-icon">📜</span>
+                <span class="nav-label">Wanted</span>
+            </button>
+            <button class="nav-tab" data-tab="reports">
+                <span class="nav-icon">✍️</span>
+                <span class="nav-label">Reports</span>
+            </button>
+            <button class="nav-tab" data-tab="evidence">
+                <span class="nav-icon">🔍</span>
+                <span class="nav-label">Evidence</span>
+            </button>
+            <button class="nav-tab" data-tab="dispatch">
+                <span class="nav-icon">📯</span>
+                <span class="nav-label">Dispatch</span>
+            </button>
+            <button class="nav-tab" data-tab="roster">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Roster</span>
+            </button>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="western-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="tab-content active">
+                <div class="parchment-panel">
+                    <h3 class="panel-title">Law Enforcement Dashboard</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">⚖️</div>
+                            <div class="stat-value" id="active-officers">0</div>
+                            <div class="stat-label">Officers on Duty</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🔗</div>
+                            <div class="stat-value" id="active-prisoners">0</div>
+                            <div class="stat-label">Prisoners</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📜</div>
+                            <div class="stat-value" id="active-warrants">0</div>
+                            <div class="stat-label">Active Warrants</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-value" id="total-bounties">$0</div>
+                            <div class="stat-label">Total Bounties</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="western-footer">
+            <div class="footer-content">
+                <span class="footer-text">The Land of Wolves RP - Law Enforcement System</span>
+                <span class="footer-divider">|</span>
+                <span class="footer-text">www.wolves.land</span>
+                <span class="footer-divider">|</span>
+                <span class="footer-text">1899</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/western-ui.js"></script>
+</body>
+</html>
