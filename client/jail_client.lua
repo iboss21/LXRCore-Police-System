@@ -23,7 +23,8 @@ AddEventHandler("lxr-police:jail:startSentence", function(data)
     -- Create blip
     jailBlip = Blip.AddForCoord(data.cellCoords.x, data.cellCoords.y, data.cellCoords.z)
     SetBlipSprite(jailBlip, `blip_proc_home`)
-    Citizen.InvokeNative(0x9CB1A1623062F402, jailBlip, "Prison Cell")
+    -- Set blip name using RedM native
+    Citizen.InvokeNative(0x9CB1A1623062F402, jailBlip, "Prison Cell") -- _SET_BLIP_NAME_FROM_TEXT_FILE
     
     -- Show charges
     local chargeText = "Charges:\n"

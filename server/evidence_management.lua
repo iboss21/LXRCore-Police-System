@@ -129,11 +129,14 @@ function performAnalysis(src, evidence)
     exports["lxr-police"]:logAudit(src, "evidence_analyze", "evidence", evidence.id, "Analyzed evidence")
 end
 
+-- Constants
+local DNA_PROFILE_SEGMENTS = 8
+
 function generateDNAProfile()
     local profile = ""
-    for i = 1, 8 do
+    for i = 1, DNA_PROFILE_SEGMENTS do
         profile = profile .. string.format("%02X", math.random(0, 255))
-        if i < 8 then profile = profile .. "-" end
+        if i < DNA_PROFILE_SEGMENTS then profile = profile .. "-" end
     end
     return profile
 end

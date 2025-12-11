@@ -1,5 +1,5 @@
 -- Enhanced MDT (Mobile Data Terminal) System
-local MDT_VERSION = "2.0.0"
+local MDT_VERSION = Config.Branding and Config.Branding.Version or "1.0.0"
 
 -- Search citizens
 RegisterNetEvent("lxr-police:mdt:searchCitizen")
