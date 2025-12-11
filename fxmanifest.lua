@@ -36,6 +36,7 @@ shared_scripts {
     'config/config.lua',
     'config/config_main.lua',
     'config/config_advanced.lua',
+    'config/wearable_items.lua',
     'config/statutes.lua',
     'config/locales/en.lua',
 }
@@ -53,6 +54,7 @@ client_scripts {
     'client/ui_bridge.lua',
     'client/evidence.lua',
     'client/evidence_collection.lua',
+    'client/attachments.lua',
 }
 
 -- Server Scripts
@@ -68,6 +70,9 @@ server_scripts {
     'server/players.lua',
     'server/profiler.lua',
     'server/evidence_management.lua',
+    'server/bounty.lua',
+    'server/posse.lua',
+    'server/telegraph.lua',
 }
 
 -- Exports
