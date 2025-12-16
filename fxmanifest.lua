@@ -55,6 +55,7 @@ client_scripts {
     'client/evidence.lua',
     'client/evidence_collection.lua',
     'client/attachments.lua',
+    'client/mdt_client.lua',
 }
 
 -- Server Scripts
@@ -66,6 +67,7 @@ server_scripts {
     'server/citations.lua',
     'server/dispatch.lua',
     'server/mdt.lua',
+    'server/mdt_enhanced.lua',
     'server/permissions.lua',
     'server/players.lua',
     'server/profiler.lua',
