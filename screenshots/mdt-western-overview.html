@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MDT System - 1899 Western Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Cinzel:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Cinzel', serif;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23654321" width="100" height="100"/><path d="M0 0 L100 100 M100 0 L0 100" stroke="%235c3a1f" stroke-width="0.5" opacity="0.3"/></svg>') repeat;
+            padding: 40px;
+        }
+        .parchment-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: linear-gradient(to bottom, #f4e4c1 0%, #e8d4a8 100%);
+            border: 8px solid #5c4033;
+            border-radius: 10px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .parchment-container::before,
+        .parchment-container::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #d4af37 0%, #8b6914 100%);
+            border-radius: 50%;
+            border: 3px solid #5c4033;
+        }
+        .parchment-container::before { top: -30px; left: -30px; }
+        .parchment-container::after { top: -30px; right: -30px; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #8b6914;
+        }
+        .star-decoration {
+            font-size: 3em;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-family: 'Rye', cursive;
+            font-size: 3.5em;
+            color: #5c4033;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 10px 0;
+            letter-spacing: 3px;
+        }
+        .subtitle {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.3em;
+            color: #8b6914;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: bold;
+        }
+        
+        .law-offices {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .office-badge {
+            background: linear-gradient(135deg, #d4af37 0%, #8b6914 100%);
+            border: 3px solid #5c4033;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .badge-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .badge-title {
+            font-family: 'Rye', cursive;
+            font-size: 1.2em;
+            color: #2a1810;
+            font-weight: bold;
+        }
+        
+        .stations-section {
+            background: rgba(139, 105, 20, 0.1);
+            border: 2px solid #8b6914;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .section-title {
+            font-family: 'Rye', cursive;
+            font-size: 2em;
+            color: #5c4033;
+            text-align: center;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+        .stations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .station-card {
+            background: #fef9e7;
+            border: 2px solid #8b6914;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+        .station-name {
+            font-family: 'Rye', cursive;
+            font-size: 1.4em;
+            color: #5c4033;
+            margin-bottom: 10px;
+        }
+        .station-type {
+            color: #8b6914;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .feature-box {
+            background: #fef9e7;
+            border: 3px solid #8b6914;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .feature-title {
+            font-family: 'Rye', cursive;
+            font-size: 1.3em;
+            color: #5c4033;
+            margin-bottom: 10px;
+        }
+        .feature-desc {
+            color: #6d5d4b;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .stats-banner {
+            background: linear-gradient(90deg, #8b4513 0%, #654321 50%, #8b4513 100%);
+            color: #f4e4c1;
+            padding: 25px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-family: 'Courier Prime', monospace;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #d4af37;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .footer-seal {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px solid #8b6914;
+        }
+        .seal-text {
+            font-family: 'Courier Prime', monospace;
+            color: #5c4033;
+            font-size: 1.1em;
+        }
+        .year {
+            font-family: 'Rye', cursive;
+            font-size: 2em;
+            color: #8b6914;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="parchment-container">
+        <div class="header">
+            <div class="star-decoration">★ ★ ★</div>
+            <h1>Law Enforcement Command Center</h1>
+            <div class="subtitle">Mobile Data Terminal System</div>
+        </div>
+        
+        <div class="law-offices">
+            <div class="office-badge">
+                <div class="badge-icon">⭐</div>
+                <div class="badge-title">U.S. Marshal</div>
+            </div>
+            <div class="office-badge">
+                <div class="badge-icon">🔰</div>
+                <div class="badge-title">Sheriff</div>
+            </div>
+            <div class="office-badge">
+                <div class="badge-icon">🎖️</div>
+                <div class="badge-title">Deputy Marshal</div>
+            </div>
+            <div class="office-badge">
+                <div class="badge-icon">⚔️</div>
+                <div class="badge-title">Ranger</div>
+            </div>
+        </div>
+        
+        <div class="stations-section">
+            <div class="section-title">Active Stations & Territories</div>
+            <div class="stations-grid">
+                <div class="station-card">
+                    <div class="station-name">Valentine</div>
+                    <div class="station-type">Sheriff's Office</div>
+                </div>
+                <div class="station-card">
+                    <div class="station-name">Saint Denis</div>
+                    <div class="station-type">Police Station</div>
+                </div>
+                <div class="station-card">
+                    <div class="station-name">Rhodes</div>
+                    <div class="station-type">Sheriff's Office</div>
+                </div>
+                <div class="station-card">
+                    <div class="station-name">Blackwater</div>
+                    <div class="station-type">Police Department</div>
+                </div>
+                <div class="station-card">
+                    <div class="station-name">Strawberry</div>
+                    <div class="station-type">Sheriff's Office</div>
+                </div>
+                <div class="station-card">
+                    <div class="station-name">Annesburg</div>
+                    <div class="station-type">Town Marshal</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-banner">
+            <div class="stat-item">
+                <div class="stat-value">~3,000</div>
+                <div class="stat-label">Lines of Code</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Record Tables</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">40+</div>
+                <div class="stat-label">Operations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">9</div>
+                <div class="stat-label">Systems</div>
+            </div>
+        </div>
+        
+        <div class="section-title">Command Center Features</div>
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon">📖</div>
+                <div class="feature-title">Citizen Ledger</div>
+                <div class="feature-desc">Complete records of citizens, outlaws, and known associates</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">✍️</div>
+                <div class="feature-title">Incident Reports</div>
+                <div class="feature-desc">Document arrests, citations, and criminal activities</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">⚖️</div>
+                <div class="feature-title">Arrest Records</div>
+                <div class="feature-desc">Track charges, convictions, and sentences</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">📜</div>
+                <div class="feature-title">Warrants</div>
+                <div class="feature-desc">Issue and execute arrest and search warrants</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">Wanted Posters</div>
+                <div class="feature-icon">⚠️</div>
+                <div class="feature-title">Create bounty posters for dangerous outlaws</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">🐎</div>
+                <div class="feature-title">Horse & Wagon Registry</div>
+                <div class="feature-desc">Track stolen horses and wagon ownership</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">📡</div>
+                <div class="feature-title">Telegraph BOLO</div>
+                <div class="feature-desc">Alert all stations of wanted criminals</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">📁</div>
+                <div class="feature-title">Case Files</div>
+                <div class="feature-desc">Investigation records and evidence</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Station Reports</div>
+                <div class="feature-desc">Activity logs and statistics</div>
+            </div>
+        </div>
+        
+        <div class="footer-seal">
+            <div class="seal-text">The Land of Wolves RP</div>
+            <div class="seal-text">Law Enforcement Command System</div>
+            <div class="year">★ 1899 ★</div>
+        </div>
+    </div>
+</body>
+</html>
