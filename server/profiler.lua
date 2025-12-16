@@ -1,8 +1,8 @@
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(10000)
-        local cpu = GetResourceCPUUsage("lxr-police")
-        local mem = GetResourceMemoryUsage("lxr-police") / 1024 / 1024
-        print(string.format("[PROFILER] Arrest Module: CPU %.3f ms, Mem %.2f MB", cpu, mem))
+        -- Using collectgarbage for memory monitoring since GetResourceCPUUsage/GetResourceMemoryUsage don't exist in FiveM/RedM
+        local mem = collectgarbage("count") / 1024 -- Convert KB to MB
+        print(string.format("[PROFILER] Police System: Mem %.2f MB", mem))
     end
 end)
