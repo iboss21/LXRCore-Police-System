@@ -273,7 +273,7 @@ end)
 
 -- Open MDT
 RegisterCommand('mdt', function()
-    if not exports['lxr-police']:IsOfficer(PlayerId()) then
+    if not exports['lxr-police']:IsOfficer() then
         TriggerEvent('lxr-police:notify', 'You are not authorized to access the MDT', 'error')
         return
     end
@@ -294,7 +294,7 @@ end, false)
 
 -- Quick citizen lookup
 RegisterCommand('lookup', function(source, args)
-    if not exports['lxr-police']:IsOfficer(PlayerId()) then
+    if not exports['lxr-police']:IsOfficer() then
         TriggerEvent('lxr-police:notify', 'You are not authorized', 'error')
         return
     end
@@ -310,7 +310,7 @@ end, false)
 
 -- Quick vehicle lookup
 RegisterCommand('platecheck', function(source, args)
-    if not exports['lxr-police']:IsOfficer(PlayerId()) then
+    if not exports['lxr-police']:IsOfficer() then
         TriggerEvent('lxr-police:notify', 'You are not authorized', 'error')
         return
     end

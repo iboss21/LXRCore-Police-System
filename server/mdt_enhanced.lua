@@ -40,10 +40,6 @@ AddEventHandler("lxr-police:mdt:searchCitizens", function(searchData)
     local params = {["@q"] = "%" .. query .. "%"}
     if filters.gender then params["@gender"] = filters.gender end
     
-    
-    local params = {["@q"] = "%" .. query .. "%"}
-    if filters.gender then params["@gender"] = filters.gender end
-    
     MySQL.Async.fetchAll(sql, params, function(results)
         TriggerClientEvent("lxr-police:mdt:searchResults", src, results)
     end)
