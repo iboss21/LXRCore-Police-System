@@ -2,18 +2,18 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-gold?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-2.0.0-gold?style=for-the-badge)
 ![RedM](https://img.shields.io/badge/RedM-Compatible-darkred?style=for-the-badge)
 ![Framework](https://img.shields.io/badge/Framework-RSGCore%20%7C%20LXRCore-blue?style=for-the-badge)
 ![Era](https://img.shields.io/badge/Era-1899%20Wild%20West-brown?style=for-the-badge)
 
 **The World's Most Advanced & Authentic 1899 Wild West Law Enforcement System for RedM**
 
-[Features](#-features) • [Installation](#-installation) • [Configuration](#️-configuration) • [Documentation](#-documentation) • [Support](#-support)
+[Features](#-features) • [K9 Unit](#-k9-unit-system-new) • [Physical Items](#-physical-items-new) • [Installation](#-installation) • [Documentation](#-documentation)
 
 ---
 
-### 🌟 **The #1 Police System for RedM** 🌟
+### 🌟 **NOW WITH K9 DOGS & PHYSICAL EVIDENCE ITEMS!** 🌟
 
 *Historically Accurate • Fully Configurable • Beautiful UI • Production Ready*
 
@@ -99,6 +99,34 @@
 - **DNA Collection** - Basic forensics
 - **Property Seizure** - Legal confiscation
 - **Search System** - Detailed suspect searches
+- **Arrest Reports** - Physical arrest documents
+
+### 🐕 K9 Unit System **[NEW!]**
+
+- **Period-Accurate Breeds** - Bloodhound, Coonhound, Shepherd
+- **K9 Tracking** - Scent-based suspect tracking
+- **K9 Search** - Evidence detection and recovery
+- **K9 Apprehension** - Non-lethal suspect subduing
+- **Training System** - 5 levels from Basic to Master K9
+- **XP Progression** - Gain experience through K9 work
+- **Health & Stamina** - Full K9 stat management
+- **Multiple Commands** - Follow, Stay, Track, Search, Attack
+- **Database Tracking** - Save K9 progress and stats
+
+### 📄 Physical Items System **[NEW!]**
+
+- **Incident Reports** - Physical paper documents
+- **Arrest Reports** - Given to officer AND suspect
+- **Citation Tickets** - Actual tickets with metadata
+- **Warrant Papers** - Physical arrest warrants
+- **Wanted Posters** - Print multiple copies
+- **Evidence Bags** - 6 types of physical evidence items
+- **Investigation Notes** - Detective case notes
+- **Search Receipts** - Given after player searches
+- **Telegraph Messages** - Period-accurate dispatches
+- **Witness Statements** - Recorded testimonies
+- **Court Summons** - Legal documents
+- **Property Receipts** - Confiscation records
 
 ### 🚔 Jail & Prison System
 
