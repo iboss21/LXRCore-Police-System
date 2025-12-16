@@ -86,9 +86,134 @@
                             <div class="stat-label">Total Bounties</div>
                         </div>
                     </div>
+                    <div class="recent-activity">
+                        <h3 class="panel-title">Recent Activity</h3>
+                        <div id="activity-feed" class="activity-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Records Tab -->
+            <div id="records-tab" class="tab-content">
+                <div class="parchment-panel">
+                    <h3 class="panel-title">📜 Citizen Ledger</h3>
+                    <div class="search-section">
+                        <input type="text" id="citizen-search" class="western-input" placeholder="Search by name or identifier...">
+                        <button onclick="searchCitizens()" class="western-button">Search</button>
+                        <button onclick="showCreateCitizenModal()" class="western-button secondary">+ New Citizen</button>
+                    </div>
+                    <div id="search-results" class="results-container"></div>
+                </div>
+            </div>
+
+            <!-- Wanted Tab -->
+            <div id="wanted-tab" class="tab-content">
+                <div class="parchment-panel">
+                    <h3 class="panel-title">🎯 Wanted Posters</h3>
+                    <div class="toolbar">
+                        <button onclick="showCreateWantedModal()" class="western-button">+ Create Wanted Poster</button>
+                        <select id="wanted-filter" class="western-select" onchange="filterWanted()">
+                            <option value="all">All Posters</option>
+                            <option value="active">Active</option>
+                            <option value="captured">Captured</option>
+                        </select>
+                    </div>
+                    <div id="wanted-posters" class="wanted-grid"></div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports-tab" class="tab-content">
+                <div class="parchment-panel">
+                    <h3 class="panel-title">✒️ Incident Reports</h3>
+                    <div class="toolbar">
+                        <button onclick="showCreateReportModal()" class="western-button">+ Create Report</button>
+                        <select id="report-type-filter" class="western-select" onchange="filterReports()">
+                            <option value="all">All Reports</option>
+                            <option value="incident">Incident</option>
+                            <option value="arrest">Arrest</option>
+                            <option value="citation">Citation</option>
+                        </select>
+                    </div>
+                    <div id="reports-list" class="reports-container"></div>
+                </div>
+            </div>
+
+            <!-- Evidence Tab -->
+            <div id="evidence-tab" class="tab-content">
+                <div class="parchment-panel">
+                    <h3 class="panel-title">📁 Evidence & Case Files</h3>
+                    <div class="toolbar">
+                        <button onclick="showCreateCaseModal()" class="western-button">+ New Case</button>
+                        <select id="case-status-filter" class="western-select" onchange="filterCases()">
+                            <option value="all">All Cases</option>
+                            <option value="open">Open</option>
+                            <option value="closed">Closed</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                    <div id="cases-list" class="cases-container"></div>
+                </div>
+            </div>
+
+            <!-- Dispatch Tab -->
+            <div id="dispatch-tab" class="tab-content">
+                <div class="parchment-panel">
+                    <h3 class="panel-title">⚡ Telegraph BOLO System</h3>
+                    <div class="toolbar">
+                        <button onclick="showCreateBOLOModal()" class="western-button">+ Send BOLO</button>
+                        <select id="bolo-type-filter" class="western-select" onchange="filterBOLOs()">
+                            <option value="all">All BOLOs</option>
+                            <option value="person">Person</option>
+                            <option value="vehicle">Horse/Wagon</option>
+                            <option value="item">Item</option>
+                        </select>
+                    </div>
+                    <div id="bolo-list" class="bolo-container"></div>
+                </div>
+            </div>
+
+            <!-- Roster Tab -->
+            <div id="roster-tab" class="tab-content">
+                <div class="parchment-panel">
+                    <h3 class="panel-title">👥 Officer Roster</h3>
+                    <div class="roster-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-value" id="roster-marshals">0</div>
+                            <div class="stat-label">U.S. Marshals</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⚜️</div>
+                            <div class="stat-value" id="roster-sheriffs">0</div>
+                            <div class="stat-label">Sheriffs</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✦</div>
+                            <div class="stat-value" id="roster-deputies">0</div>
+                            <div class="stat-label">Deputies</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⚔️</div>
+                            <div class="stat-value" id="roster-rangers">0</div>
+                            <div class="stat-label">Rangers</div>
+                        </div>
+                    </div>
+                    <div id="roster-list" class="roster-container"></div>
                 </div>
             </div>
         </div>
+
+        <!-- Modal Container -->
+        <div id="modal-overlay" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <div id="modal-body"></div>
+            </div>
+        </div>
+
+        <!-- Notification Container -->
+        <div id="notification-container" class="notification-container"></div>
 
         <!-- Footer -->
         <footer class="western-footer">
