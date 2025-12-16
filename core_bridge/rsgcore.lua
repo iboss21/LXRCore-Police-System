@@ -82,6 +82,49 @@ function M.GetInventory(src)
     return {}
 end
 
+function M.AddItem(src, item, amount, metadata)
+    local player = M.GetPlayer(src)
+    if player then
+        -- Check for rsg-inventory
+        if GetResourceState('rsg-inventory') == 'started' then
+            return exports['rsg-inventory']:AddItem(src, item, amount or 1, metadata or {})
+        else
+            -- Fallback to core inventory
+            return player.Functions.AddItem(item, amount or 1, false, metadata or {})
+        end
+    end
+    return false
+end
+
+function M.RemoveItem(src, item, amount)
+    local player = M.GetPlayer(src)
+    if player then
+        -- Check for rsg-inventory
+        if GetResourceState('rsg-inventory') == 'started' then
+            return exports['rsg-inventory']:RemoveItem(src, item, amount or 1)
+        else
+            -- Fallback to core inventory
+            return player.Functions.RemoveItem(item, amount or 1)
+        end
+    end
+    return false
+end
+
+function M.HasItem(src, item, amount)
+    local player = M.GetPlayer(src)
+    if player then
+        local inventory = M.GetInventory(src)
+        local count = 0
+        for _, invItem in pairs(inventory) do
+            if invItem.name == item then
+                count = count + (invItem.amount or 1)
+            end
+        end
+        return count >= (amount or 1)
+    end
+    return false
+end
+
 function M.Progress(src, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
     if not IsDuplicityVersion() then
         RSGCore.Functions.Progressbar(label, label, duration, useWhileDead or false, canCancel or false, {
