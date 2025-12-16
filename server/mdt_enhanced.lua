@@ -40,6 +40,10 @@ AddEventHandler("lxr-police:mdt:searchCitizens", function(searchData)
     local params = {["@q"] = "%" .. query .. "%"}
     if filters.gender then params["@gender"] = filters.gender end
     
+    
+    local params = {["@q"] = "%" .. query .. "%"}
+    if filters.gender then params["@gender"] = filters.gender end
+    
     MySQL.Async.fetchAll(sql, params, function(results)
         TriggerClientEvent("lxr-police:mdt:searchResults", src, results)
     end)
@@ -774,7 +778,7 @@ AddEventHandler("lxr-police:mdt:getDashboardStats", function()
     MySQL.Async.fetchAll("SELECT COUNT(*) as count FROM mdt_warrants WHERE status = 'active'", {}, function(warrants)
         MySQL.Async.fetchAll("SELECT COUNT(*) as count FROM mdt_wanted_posters WHERE status = 'active'", {}, function(posters)
             MySQL.Async.fetchAll("SELECT SUM(reward_amount) as total FROM mdt_wanted_posters WHERE status = 'active'", {}, function(bounties)
-                MySQL.Async.fetchAll("SELECT COUNT(*) as count FROM leo_jail WHERE is_jailed = 1", {}, function(prisoners)
+                MySQL.Async.fetchAll("SELECT COUNT(*) as count FROM leo_jail WHERE release_time IS NULL OR release_time > NOW()", {}, function(prisoners)
                     
                     local stats = {
                         activeOfficers = activeOfficers,
@@ -799,17 +803,20 @@ exports("GetMDTVersion", function()
     return MDT_VERSION
 end)
 
-exports("SearchCitizen", function(query)
-    return MySQL.Sync.fetchAll([[
+exports("SearchCitizen", function(query, cb)
+    MySQL.Async.fetchAll([[
         SELECT * FROM mdt_citizens 
         WHERE name LIKE @q OR identifier LIKE @q 
         LIMIT 10
-    ]], {["@q"] = "%" .. query .. "%"})
+    ]], {["@q"] = "%" .. query .. "%"}, function(results)
+        if cb then cb(results) end
+    end)
 end)
 
-exports("GetCitizenByIdentifier", function(identifier)
-    local result = MySQL.Sync.fetchAll("SELECT * FROM mdt_citizens WHERE identifier = @id", {["@id"] = identifier})
-    return result[1] or nil
+exports("GetCitizenByIdentifier", function(identifier, cb)
+    MySQL.Async.fetchAll("SELECT * FROM mdt_citizens WHERE identifier = @id", {["@id"] = identifier}, function(results)
+        if cb then cb(results[1] or nil) end
+    end)
 end)
 
 print("^2[MDT Enhanced]^7 MDT System v" .. MDT_VERSION .. " loaded successfully")

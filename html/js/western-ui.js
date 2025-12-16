@@ -60,7 +60,8 @@ function openMDT() {
 
 function closeMDT() {
     document.getElementById('law-system').classList.add('hidden');
-    fetch(`https://${GetParentResourceName()}/close`, {
+    const resourceName = getResourceName();
+    fetch(`https://${resourceName}/close`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({})
@@ -126,7 +127,7 @@ function switchTab(tabName) {
 // ============================================================================
 
 function loadDashboard() {
-    fetch(`https://${GetParentResourceName()}/getDashboardStats`, {
+    fetch(`https://${getResourceName()}/getDashboardStats`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({})
@@ -181,7 +182,7 @@ function searchCitizens() {
         return;
     }
     
-    fetch(`https://${GetParentResourceName()}/searchCitizens`, {
+    fetch(`https://${getResourceName()}/searchCitizens`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({query: query})
@@ -225,7 +226,7 @@ function displaySearchResults(results) {
 }
 
 function viewCitizenProfile(citizenId) {
-    fetch(`https://${GetParentResourceName()}/getCitizenProfile`, {
+    fetch(`https://${getResourceName()}/getCitizenProfile`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({citizenId: citizenId})
@@ -333,7 +334,7 @@ function loadReportsTab() {
     `;
     
     // Load reports
-    fetch(`https://${GetParentResourceName()}/getReports`, {
+    fetch(`https://${getResourceName()}/getReports`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({})
@@ -427,7 +428,7 @@ function createNewReport() {
         const formData = new FormData(e.target);
         const charges = formData.get('charges').split('\n').filter(c => c.trim());
         
-        fetch(`https://${GetParentResourceName()}/createReport`, {
+        fetch(`https://${getResourceName()}/createReport`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -476,7 +477,7 @@ function loadWantedTab() {
     `;
     
     // Load posters
-    fetch(`https://${GetParentResourceName()}/getWantedPosters`, {
+    fetch(`https://${getResourceName()}/getWantedPosters`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({status: 'active'})
@@ -583,7 +584,7 @@ function createNewWantedPoster() {
         const formData = new FormData(e.target);
         const charges = formData.get('charges').split('\n').filter(c => c.trim());
         
-        fetch(`https://${GetParentResourceName()}/createWantedPoster`, {
+        fetch(`https://${getResourceName()}/createWantedPoster`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -760,8 +761,12 @@ function showNotification(message, type = 'info') {
 // UTILITY FUNCTIONS
 // ============================================================================
 
-function GetParentResourceName() {
-    return window.location.hostname === 'nui-hostname' ? 'lxr-police' : 'lxr-police';
+function getResourceName() {
+    if (window.GetParentResourceName) {
+        return window.getResourceName();
+    }
+    // Fallback for development/testing
+    return 'lxr-police';
 }
 
 // Initialize when DOM is ready

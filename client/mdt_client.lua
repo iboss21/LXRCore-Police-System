@@ -273,8 +273,7 @@ end)
 
 -- Open MDT
 RegisterCommand('mdt', function()
-    local playerData = exports['lxr-police']:GetPlayerData()
-    if not playerData or not exports['lxr-police']:IsOfficer(PlayerId()) then
+    if not exports['lxr-police']:IsOfficer(PlayerId()) then
         TriggerEvent('lxr-police:notify', 'You are not authorized to access the MDT', 'error')
         return
     end
