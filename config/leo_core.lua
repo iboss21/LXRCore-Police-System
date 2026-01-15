@@ -306,6 +306,7 @@ Config.LEOCore.AntiAbuse = {
     -- Actions on abuse detection
     OnAbuse = "warn",                   -- "warn", "kick", "ban", "log"
     BanDuration = 86400,                -- 24 hours
+    BanEventName = "qb-admin:server:ban", -- Configurable ban event
     NotifyAdmins = true,
     
     -- Distance checks

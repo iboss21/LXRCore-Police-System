@@ -186,41 +186,43 @@ function UpdateActivity(src)
     end
 end
 
--- AFK Check Thread
+-- AFK Check using SetTimeout (no loops)
 if Config.LEOCore and Config.LEOCore.Duty.AFKTimeoutMinutes > 0 then
-    Citizen.CreateThread(function()
-        while true do
-            Citizen.Wait((Config.LEOCore.Duty.AFKCheckInterval or 60) * 1000)
-            
-            for src, state in pairs(dutyStates) do
-                if state and lastActivity[src] then
-                    local afkTime = os.time() - lastActivity[src]
-                    local afkMinutes = afkTime / 60
-                    
-                    -- Warning
-                    if afkMinutes >= Config.LEOCore.Duty.AFKWarningMinutes then
-                        TriggerClientEvent("lxr-police:notify", src, 
-                            "AFK Warning: You will be clocked out in " .. 
-                            (Config.LEOCore.Duty.AFKTimeoutMinutes - afkMinutes) .. " minutes",
-                            "warning"
-                        )
-                    end
-                    
-                    -- Timeout
-                    if afkMinutes >= Config.LEOCore.Duty.AFKTimeoutMinutes then
-                        SetDutyState(src, false)
-                        TriggerClientEvent("lxr-police:notify", src, 
-                            "You have been clocked out due to inactivity",
-                            "error"
-                        )
-                        exports["lxr-police"]:logAudit(src, "duty_afk_timeout", "duty", 0, 
-                            "Auto clocked out after " .. afkMinutes .. " minutes AFK"
-                        )
-                    end
+    local function CheckAFK()
+        for src, state in pairs(dutyStates) do
+            if state and lastActivity[src] then
+                local afkTime = os.time() - lastActivity[src]
+                local afkMinutes = afkTime / 60
+                
+                -- Warning
+                if afkMinutes >= Config.LEOCore.Duty.AFKWarningMinutes then
+                    TriggerClientEvent("lxr-police:notify", src, 
+                        "AFK Warning: You will be clocked out in " .. 
+                        (Config.LEOCore.Duty.AFKTimeoutMinutes - afkMinutes) .. " minutes",
+                        "warning"
+                    )
+                end
+                
+                -- Timeout
+                if afkMinutes >= Config.LEOCore.Duty.AFKTimeoutMinutes then
+                    SetDutyState(src, false)
+                    TriggerClientEvent("lxr-police:notify", src, 
+                        "You have been clocked out due to inactivity",
+                        "error"
+                    )
+                    exports["lxr-police"]:logAudit(src, "duty_afk_timeout", "duty", 0, 
+                        "Auto clocked out after " .. afkMinutes .. " minutes AFK"
+                    )
                 end
             end
         end
-    end)
+        
+        -- Schedule next check
+        SetTimeout((Config.LEOCore.Duty.AFKCheckInterval or 60) * 1000, CheckAFK)
+    end
+    
+    -- Start the check cycle
+    SetTimeout((Config.LEOCore.Duty.AFKCheckInterval or 60) * 1000, CheckAFK)
 end
 
 -- ══════════════════════════════════════════════════════════════

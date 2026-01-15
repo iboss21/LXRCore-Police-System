@@ -150,7 +150,8 @@ function HandleSuspiciousActivity(src, activityType, details)
     elseif action == "ban" then
         -- This would integrate with your ban system
         local banDuration = Config.LEOCore.AntiAbuse.BanDuration or 86400
-        TriggerEvent("your-ban-system:ban", src, banDuration, "LEO system abuse")
+        local banEvent = Config.LEOCore.AntiAbuse.BanEventName or "qb-admin:server:ban"
+        TriggerEvent(banEvent, src, banDuration, "LEO system abuse")
         DropPlayer(src, "Banned for abuse of law enforcement systems")
     end
 end
@@ -330,38 +331,40 @@ AddEventHandler("playerDropped", function()
     actionTimestamps[src] = nil
 end)
 
--- Periodic cleanup of old data
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(300000) -- 5 minutes
-        
-        local now = os.time()
-        
-        -- Clean rate limits
-        for src, actions in pairs(rateLimits) do
-            for action, timestamps in pairs(actions) do
-                local valid = {}
-                for _, timestamp in ipairs(timestamps) do
-                    if (now - timestamp) < 600 then -- Keep 10 minutes
-                        table.insert(valid, timestamp)
-                    end
-                end
-                rateLimits[src][action] = valid
-            end
-        end
-        
-        -- Clean suspicious activity
-        for src, activities in pairs(suspiciousActivity) do
+-- Periodic cleanup using SetTimeout (no loops)
+local function CleanupOldData()
+    local now = os.time()
+    
+    -- Clean rate limits
+    for src, actions in pairs(rateLimits) do
+        for action, timestamps in pairs(actions) do
             local valid = {}
-            for _, activity in ipairs(activities) do
-                if (now - activity.timestamp) < 3600 then -- Keep 1 hour
-                    table.insert(valid, activity)
+            for _, timestamp in ipairs(timestamps) do
+                if (now - timestamp) < 600 then -- Keep 10 minutes
+                    table.insert(valid, timestamp)
                 end
             end
-            suspiciousActivity[src] = valid
+            rateLimits[src][action] = valid
         end
     end
-end)
+    
+    -- Clean suspicious activity
+    for src, activities in pairs(suspiciousActivity) do
+        local valid = {}
+        for _, activity in ipairs(activities) do
+            if (now - activity.timestamp) < 3600 then -- Keep 1 hour
+                table.insert(valid, activity)
+            end
+        end
+        suspiciousActivity[src] = valid
+    end
+    
+    -- Schedule next cleanup
+    SetTimeout(300000, CleanupOldData) -- 5 minutes
+end
+
+-- Start cleanup cycle
+SetTimeout(300000, CleanupOldData)
 
 -- ══════════════════════════════════════════════════════════════
 -- EXPORTS

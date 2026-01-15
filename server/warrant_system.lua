@@ -291,39 +291,90 @@ function IssueWarrant(src, data, officer, approvalType, notes)
     end)
 end
 
+-- Warrant ID counter for uniqueness
+local warrantIdCounter = 0
+
 ---Generate unique warrant ID
 ---@return string
 function GenerateWarrantId()
-    return "WRT-" .. os.time() .. "-" .. math.random(1000, 9999)
+    warrantIdCounter = warrantIdCounter + 1
+    return "WRT-" .. os.date("%Y%m%d") .. "-" .. string.format("%06d", warrantIdCounter)
 end
 
----Notify all online supervisors of pending warrant
----@param warrantId string Warrant ID
----@param warrant table Warrant data
-function NotifySupervisors(warrantId, warrant)
+-- Cache for supervisor list
+local supervisorCache = {}
+local lastSupervisorUpdate = 0
+
+---Update supervisor cache
+local function UpdateSupervisorCache()
+    supervisorCache = {}
     local players = GetPlayers()
+    local minRank = Config.LEOCore and Config.LEOCore.Warrants.MinApprovalRank or 3
+    
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
         if exports["lxr-police"]:IsOfficer(src) then
             local grade = exports["lxr-police"]:GetGrade(src)
-            local minRank = Config.LEOCore and Config.LEOCore.Warrants.MinApprovalRank or 3
-            
             if grade >= minRank and exports["lxr-police"]:IsOnDuty(src) then
-                TriggerClientEvent("lxr-police:warrant:pendingNotification", src, {
-                    id = warrantId,
-                    type = warrant.warrantType,
-                    citizen = warrant.citizenId,
-                    requestedBy = warrant.requestedByName,
-                })
+                table.insert(supervisorCache, src)
             end
+        end
+    end
+    
+    lastSupervisorUpdate = os.time()
+end
+
+---Notify all online supervisors of pending warrant (optimized)
+---@param warrantId string Warrant ID
+---@param warrant table Warrant data
+function NotifySupervisors(warrantId, warrant)
+    -- Update cache if stale (older than 60 seconds)
+    if (os.time() - lastSupervisorUpdate) > 60 then
+        UpdateSupervisorCache()
+    end
+    
+    -- Notify cached supervisors
+    for _, src in ipairs(supervisorCache) do
+        TriggerClientEvent("lxr-police:warrant:pendingNotification", src, {
+            id = warrantId,
+            type = warrant.warrantType,
+            citizen = warrant.citizenId,
+            requestedBy = warrant.requestedByName,
+        })
+    end
+end
+
+-- Cache for faster player lookups
+local playerCache = {}
+
+---Update player cache
+local function UpdatePlayerCache(src)
+    local player = exports["lxr-police"]:GetPlayer(src)
+    if player then
+        local citizenId = player.PlayerData and player.PlayerData.citizenid or player.citizenid
+        if citizenId then
+            playerCache[citizenId] = src
         end
     end
 end
 
----Get player source from citizen ID
+---Get player source from citizen ID (cached)
 ---@param citizenId string Citizen ID
 ---@return number|nil Player source or nil
 function GetPlayerFromCitizenId(citizenId)
+    -- Check cache first
+    if playerCache[citizenId] then
+        local src = playerCache[citizenId]
+        -- Verify player is still online
+        if GetPlayerPed(src) and GetPlayerPed(src) > 0 then
+            return src
+        else
+            -- Remove from cache if offline
+            playerCache[citizenId] = nil
+        end
+    end
+    
+    -- Fallback to full search if not cached
     local players = GetPlayers()
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
@@ -331,12 +382,28 @@ function GetPlayerFromCitizenId(citizenId)
         if player then
             local pCitizenId = player.PlayerData and player.PlayerData.citizenid or player.citizenid
             if pCitizenId == citizenId then
+                -- Update cache
+                playerCache[citizenId] = src
                 return src
             end
         end
     end
     return nil
 end
+
+-- Update cache when players join/leave
+AddEventHandler("playerJoining", function()
+    UpdatePlayerCache(source)
+end)
+
+AddEventHandler("playerDropped", function()
+    -- Clean cache
+    for citizenId, src in pairs(playerCache) do
+        if src == source then
+            playerCache[citizenId] = nil
+        end
+    end
+end)
 
 -- ══════════════════════════════════════════════════════════════
 -- EXPORTS
