@@ -188,6 +188,8 @@ end
 
 -- AFK Check using SetTimeout (no loops)
 if Config.LEOCore and Config.LEOCore.Duty.AFKTimeoutMinutes > 0 then
+    local checkInterval = (Config.LEOCore.Duty.AFKCheckInterval or 60) * 1000
+    
     local function CheckAFK()
         for src, state in pairs(dutyStates) do
             if state and lastActivity[src] then
@@ -218,11 +220,11 @@ if Config.LEOCore and Config.LEOCore.Duty.AFKTimeoutMinutes > 0 then
         end
         
         -- Schedule next check
-        SetTimeout((Config.LEOCore.Duty.AFKCheckInterval or 60) * 1000, CheckAFK)
+        SetTimeout(checkInterval, CheckAFK)
     end
     
     -- Start the check cycle
-    SetTimeout((Config.LEOCore.Duty.AFKCheckInterval or 60) * 1000, CheckAFK)
+    SetTimeout(checkInterval, CheckAFK)
 end
 
 -- ══════════════════════════════════════════════════════════════

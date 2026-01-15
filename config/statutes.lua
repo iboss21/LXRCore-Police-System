@@ -428,23 +428,28 @@ function CalculateSentence(charges)
         }
     end
     
+    -- Cache config references for performance
+    local chargesConfig = Config.LEOCore and Config.LEOCore.Charges
+    
+    -- Get multipliers from config or use defaults
+    local stackingMultiplier = CHARGE_STACKING_MULTIPLIER
+    if chargesConfig and chargesConfig.StackingMultiplier then
+        stackingMultiplier = chargesConfig.StackingMultiplier
+    end
+    
+    local bailMultiplier = BAIL_MULTIPLIER
+    if chargesConfig and chargesConfig.BailMultiplier then
+        bailMultiplier = chargesConfig.BailMultiplier
+    end
+    
+    local allowStacking = chargesConfig and chargesConfig.AllowChargeStacking
+    local bailEnabled = chargesConfig and chargesConfig.BailEnabled
+    
     local total_time = 0
     local total_fine = 0
     local bail_eligible = true
     local execution = false
     local highest_severity = 0
-    
-    -- Get stacking multiplier from config or use default
-    local stackingMultiplier = CHARGE_STACKING_MULTIPLIER
-    if Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.StackingMultiplier then
-        stackingMultiplier = Config.LEOCore.Charges.StackingMultiplier
-    end
-    
-    -- Get bail multiplier from config or use default
-    local bailMultiplier = BAIL_MULTIPLIER
-    if Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.BailMultiplier then
-        bailMultiplier = Config.LEOCore.Charges.BailMultiplier
-    end
     
     -- Process each charge
     for i, charge_code in ipairs(charges) do
@@ -452,7 +457,7 @@ function CalculateSentence(charges)
         if charge then
             -- Calculate time with stacking multiplier
             local time_multiplier = 1.0
-            if i > 1 and Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.AllowChargeStacking then
+            if i > 1 and allowStacking then
                 time_multiplier = stackingMultiplier
             end
             
@@ -482,7 +487,7 @@ function CalculateSentence(charges)
     
     -- Calculate bail
     local bail_amount = 0
-    if bail_eligible and Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.BailEnabled then
+    if bail_eligible and bailEnabled then
         bail_amount = total_fine * bailMultiplier
     end
     

@@ -197,19 +197,22 @@ function TrackAction(src, action)
     end
     
     local now = os.time()
-    table.insert(actionTimestamps[src][action], now)
+    local timestamps = actionTimestamps[src][action]
+    table.insert(timestamps, now)
     
     -- Keep only last 30 seconds
     local recent = {}
-    for _, timestamp in ipairs(actionTimestamps[src][action]) do
+    local recentCount = 0
+    for _, timestamp in ipairs(timestamps) do
         if (now - timestamp) < 30 then
             table.insert(recent, timestamp)
+            recentCount = recentCount + 1
         end
     end
     actionTimestamps[src][action] = recent
     
     -- Check for rapid actions
-    CheckRapidActions(src, action, #recent)
+    CheckRapidActions(src, action, recentCount)
 end
 
 ---Check for rapid actions
@@ -368,8 +371,9 @@ local function CleanupOldData()
     SetTimeout(CLEANUP_INTERVAL_MS, CleanupOldData)
 end
 
--- Start cleanup cycle
-SetTimeout(CLEANUP_INTERVAL_MS, CleanupOldData)
+-- Start cleanup cycle (delayed initial execution)
+Citizen.Wait(CLEANUP_INTERVAL_MS)
+SetTimeout(0, CleanupOldData)
 
 -- ══════════════════════════════════════════════════════════════
 -- EXPORTS

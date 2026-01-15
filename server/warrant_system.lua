@@ -295,7 +295,9 @@ end
 local warrantIdCounter = 0
 
 -- Initialize counter from database on resource start
-Citizen.CreateThread(function()
+AddEventHandler('onResourceStart', function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then return end
+    
     MySQL.Async.fetchScalar("SELECT MAX(CAST(SUBSTRING_INDEX(id, '-', -1) AS UNSIGNED)) FROM mdt_warrants WHERE id LIKE 'WRT-%'", {}, function(maxId)
         if maxId then
             warrantIdCounter = tonumber(maxId) or 0
