@@ -36,6 +36,7 @@ shared_scripts {
     'config/config.lua',
     'config/config_main.lua',
     'config/config_advanced.lua',
+    'config/leo_core.lua',
     'config/wearable_items.lua',
     'config/physical_items.lua',
     'config/k9_system.lua',
@@ -65,6 +66,9 @@ client_scripts {
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'core_bridge/init.lua',
+    'server/duty_system.lua',
+    'server/anti_abuse.lua',
+    'server/warrant_system.lua',
     'server/arrest.lua',
     'server/audit.lua',
     'server/citations.lua',
