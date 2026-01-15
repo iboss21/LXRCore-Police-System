@@ -291,8 +291,17 @@ function IssueWarrant(src, data, officer, approvalType, notes)
     end)
 end
 
--- Warrant ID counter for uniqueness
+-- Warrant ID counter for uniqueness (initialized from database)
 local warrantIdCounter = 0
+
+-- Initialize counter from database on resource start
+Citizen.CreateThread(function()
+    MySQL.Async.fetchScalar("SELECT MAX(CAST(SUBSTRING_INDEX(id, '-', -1) AS UNSIGNED)) FROM mdt_warrants WHERE id LIKE 'WRT-%'", {}, function(maxId)
+        if maxId then
+            warrantIdCounter = tonumber(maxId) or 0
+        end
+    end)
+end)
 
 ---Generate unique warrant ID
 ---@return string

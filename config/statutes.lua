@@ -409,6 +409,10 @@ Statutes = {
     },
 }
 
+-- Constants
+local CHARGE_STACKING_MULTIPLIER = 0.75  -- Default multiplier for additional charges
+local BAIL_MULTIPLIER = 5.0              -- Default bail = 5x fine
+
 -- ══════════════════════════════════════════════════════════════
 -- SENTENCE CALCULATOR
 -- Automatic time/fine calculation with charge stacking
@@ -430,14 +434,26 @@ function CalculateSentence(charges)
     local execution = false
     local highest_severity = 0
     
+    -- Get stacking multiplier from config or use default
+    local stackingMultiplier = CHARGE_STACKING_MULTIPLIER
+    if Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.StackingMultiplier then
+        stackingMultiplier = Config.LEOCore.Charges.StackingMultiplier
+    end
+    
+    -- Get bail multiplier from config or use default
+    local bailMultiplier = BAIL_MULTIPLIER
+    if Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.BailMultiplier then
+        bailMultiplier = Config.LEOCore.Charges.BailMultiplier
+    end
+    
     -- Process each charge
     for i, charge_code in ipairs(charges) do
         local charge = Statutes[charge_code]
         if charge then
             -- Calculate time with stacking multiplier
             local time_multiplier = 1.0
-            if i > 1 and Config.LEOCore and Config.LEOCore.Charges.AllowChargeStacking then
-                time_multiplier = Config.LEOCore.Charges.StackingMultiplier or 0.75
+            if i > 1 and Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.AllowChargeStacking then
+                time_multiplier = stackingMultiplier
             end
             
             -- Use average of min/max
@@ -466,8 +482,8 @@ function CalculateSentence(charges)
     
     -- Calculate bail
     local bail_amount = 0
-    if bail_eligible and Config.LEOCore and Config.LEOCore.Charges.BailEnabled then
-        bail_amount = total_fine * (Config.LEOCore.Charges.BailMultiplier or 5)
+    if bail_eligible and Config.LEOCore and Config.LEOCore.Charges and Config.LEOCore.Charges.BailEnabled then
+        bail_amount = total_fine * bailMultiplier
     end
     
     return {

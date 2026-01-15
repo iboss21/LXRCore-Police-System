@@ -331,6 +331,11 @@ AddEventHandler("playerDropped", function()
     actionTimestamps[src] = nil
 end)
 
+-- Constants
+local CLEANUP_INTERVAL_MS = 300000  -- 5 minutes in milliseconds
+local RATE_LIMIT_RETENTION = 600    -- 10 minutes in seconds
+local SUSPICIOUS_RETENTION = 3600   -- 1 hour in seconds
+
 -- Periodic cleanup using SetTimeout (no loops)
 local function CleanupOldData()
     local now = os.time()
@@ -340,7 +345,7 @@ local function CleanupOldData()
         for action, timestamps in pairs(actions) do
             local valid = {}
             for _, timestamp in ipairs(timestamps) do
-                if (now - timestamp) < 600 then -- Keep 10 minutes
+                if (now - timestamp) < RATE_LIMIT_RETENTION then
                     table.insert(valid, timestamp)
                 end
             end
@@ -352,7 +357,7 @@ local function CleanupOldData()
     for src, activities in pairs(suspiciousActivity) do
         local valid = {}
         for _, activity in ipairs(activities) do
-            if (now - activity.timestamp) < 3600 then -- Keep 1 hour
+            if (now - activity.timestamp) < SUSPICIOUS_RETENTION then
                 table.insert(valid, activity)
             end
         end
@@ -360,11 +365,11 @@ local function CleanupOldData()
     end
     
     -- Schedule next cleanup
-    SetTimeout(300000, CleanupOldData) -- 5 minutes
+    SetTimeout(CLEANUP_INTERVAL_MS, CleanupOldData)
 end
 
 -- Start cleanup cycle
-SetTimeout(300000, CleanupOldData)
+SetTimeout(CLEANUP_INTERVAL_MS, CleanupOldData)
 
 -- ══════════════════════════════════════════════════════════════
 -- EXPORTS
