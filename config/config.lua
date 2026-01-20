@@ -1,10 +1,27 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  The Land of Wolves RP - Law Enforcement System           ║
-    ║  1899 Wild West Authentic Police System                   ║
-    ║  www.wolves.land                                          ║
-    ║  © 2024 Land of Wolves RP Community                       ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    CONFIGURATION FILE
+    All police system settings are configurable here. Settings control law enforcement
+    jobs, stations, crimes, equipment, and features for 1899 Wild West authentic gameplay.
+    
+    Modify values below to customize The Land of Wolves police experience.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
 ]]
 
 Config = {}

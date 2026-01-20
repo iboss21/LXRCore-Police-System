@@ -1,14 +1,27 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  The Land of Wolves RP - Law Enforcement System           ║
-    ║  1899 Wild West Authentic Police System for RedM          ║
-    ║  www.wolves.land                                          ║
-    ║                                                            ║
-    ║  Version: 1.0.0                                           ║
-    ║  Author: The Land of Wolves RP Team                       ║
-    ║  Framework: RSGCore / LXRCore                             ║
-    ║  Game: RedM (Red Dead Redemption 2)                       ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    FX MANIFEST
+    All resource configuration and file loading for the LXRCore Police System.
+    Compatible with RSGCore / LXRCore frameworks for RedM.
+    
+    Modify values below to customize The Land of Wolves police experience.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
 ]]
 
 fx_version 'cerulean'
@@ -57,7 +70,8 @@ client_scripts {
     'client/evidence.lua',
     'client/evidence_collection.lua',
     'client/attachments.lua',
-    'client/mdt_client.lua',
+    'client/journal.lua',          -- NEW: Period-accurate journal system
+    -- 'client/mdt_client.lua',     -- DISABLED: Modern MDT replaced by journal
     'client/k9.lua',
 }
 
@@ -69,11 +83,12 @@ server_scripts {
     'server/audit.lua',
     'server/citations.lua',
     'server/dispatch.lua',
-    'server/mdt.lua',
-    'server/mdt_enhanced.lua',
+    'server/journal_ledger.lua',  -- NEW: Period-accurate journal/ledger system
+    -- 'server/mdt.lua',           -- DISABLED: Replaced by journal_ledger.lua
+    -- 'server/mdt_enhanced.lua',  -- DISABLED: Replaced by journal_ledger.lua
     'server/permissions.lua',
     'server/players.lua',
-    'server/profiler.lua',
+    -- 'server/profiler.lua',      -- DISABLED: Performance overhead (enable only for debugging)
     'server/evidence_management.lua',
     'server/bounty.lua',
     'server/posse.lua',
