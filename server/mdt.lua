@@ -29,10 +29,15 @@ local MDT_VERSION = Config.Branding and Config.Branding.Version or "1.0.0"
 RegisterNetEvent("lxr-police:mdt:searchCitizen")
 AddEventHandler("lxr-police:mdt:searchCitizen", function(query)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "mdt_view") then
-        exports["lxr-police"]:logAudit(src, "unauthorized_mdt", "mdt", 0, "View denied")
+    
+    -- Check duty and permission
+    if not exports["lxr-police"]:HasDutyPermission(src, "mdt_search") then
+        exports["lxr-police"]:logAudit(src, "unauthorized_mdt", "mdt", 0, "Search denied - off duty or no permission")
         return
     end
+    
+    -- Update activity
+    exports["lxr-police"]:UpdateActivity(src)
     
     MySQL.Async.fetchAll([[
         SELECT c.*, 
@@ -55,7 +60,14 @@ end)
 RegisterNetEvent("lxr-police:mdt:getCitizenProfile")
 AddEventHandler("lxr-police:mdt:getCitizenProfile", function(citizenId)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "mdt_view") then return end
+    
+    -- Check duty and permission
+    if not exports["lxr-police"]:HasDutyPermission(src, "mdt_access") then
+        return
+    end
+    
+    -- Update activity
+    exports["lxr-police"]:UpdateActivity(src)
     
     -- Get citizen data
     MySQL.Async.fetchAll("SELECT * FROM mdt_citizens WHERE id = @id", {["@id"] = citizenId}, function(citizen)
@@ -109,7 +121,14 @@ end)
 RegisterNetEvent("lxr-police:mdt:createReport")
 AddEventHandler("lxr-police:mdt:createReport", function(reportData)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "mdt_edit") then return end
+    
+    -- Check duty and permission
+    if not exports["lxr-police"]:HasDutyPermission(src, "mdt_create_report") then
+        return
+    end
+    
+    -- Update activity
+    exports["lxr-police"]:UpdateActivity(src)
     
     MySQL.Async.execute([[
         INSERT INTO mdt_reports (officer_id, citizen_id, report_type, title, description, location, evidence_ids, created_at)

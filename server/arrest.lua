@@ -49,55 +49,73 @@ end
 RegisterNetEvent("lxr-police:arrest:softCuff")
 AddEventHandler("lxr-police:arrest:softCuff", function(targetId)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "arrest") then
-        sendWebhook("unauthorized_arrest", src, targetId, "Attempted soft cuff")
-        DropPlayer(src, "Unauthorized police action.")
-        return
-    end
     
-    arrestStates[targetId] = {
-        cuffed = true,
-        cuffType = "soft",
-        officer = src,
-        timestamp = os.time()
-    }
-    
-    TriggerClientEvent("lxr-police:arrest:softCuff", targetId, GetPlayerPed(src))
-    sendWebhook("arrest_softCuff", src, targetId, "Soft cuff applied")
-    exports["lxr-police"]:logAudit(src, "arrest_softCuff", "player", targetId, "Soft cuff applied")
-    
-    -- Notify nearby officers
-    local coords = GetEntityCoords(GetPlayerPed(src))
-    local players = GetPlayers()
-    for _, playerId in ipairs(players) do
-        if exports["lxr-police"]:IsOfficer(tonumber(playerId)) then
-            local playerCoords = GetEntityCoords(GetPlayerPed(tonumber(playerId)))
-            if #(coords - playerCoords) < 50.0 then
-                TriggerClientEvent("lxr-police:notify", tonumber(playerId), "Officer cuffed a suspect nearby", "primary")
+    -- Use new protected action system
+    if not exports["lxr-police"]:ProtectedAction(src, "arrests", targetId, function()
+        -- Check duty and permission
+        if not exports["lxr-police"]:HasDutyPermission(src, "arrest_detain") then
+            sendWebhook("unauthorized_arrest", src, targetId, "Attempted soft cuff")
+            return
+        end
+        
+        arrestStates[targetId] = {
+            cuffed = true,
+            cuffType = "soft",
+            officer = src,
+            timestamp = os.time()
+        }
+        
+        TriggerClientEvent("lxr-police:arrest:softCuff", targetId, GetPlayerPed(src))
+        sendWebhook("arrest_softCuff", src, targetId, "Soft cuff applied")
+        exports["lxr-police"]:logAudit(src, "arrest_softCuff", "player", targetId, "Soft cuff applied")
+        
+        -- Update activity
+        exports["lxr-police"]:UpdateActivity(src)
+        
+        -- Notify nearby officers
+        local coords = GetEntityCoords(GetPlayerPed(src))
+        local players = GetPlayers()
+        for _, playerId in ipairs(players) do
+            if exports["lxr-police"]:IsOfficer(tonumber(playerId)) then
+                local playerCoords = GetEntityCoords(GetPlayerPed(tonumber(playerId)))
+                if #(coords - playerCoords) < 50.0 then
+                    TriggerClientEvent("lxr-police:notify", tonumber(playerId), "Officer cuffed a suspect nearby", "primary")
+                end
             end
         end
+    end) then
+        return
     end
 end)
 
 RegisterNetEvent("lxr-police:arrest:hardCuff")
 AddEventHandler("lxr-police:arrest:hardCuff", function(targetId)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "arrest") then
-        sendWebhook("unauthorized_arrest", src, targetId, "Attempted hard cuff")
-        DropPlayer(src, "Unauthorized police action.")
+    
+    -- Use new protected action system
+    if not exports["lxr-police"]:ProtectedAction(src, "arrests", targetId, function()
+        -- Check duty and permission
+        if not exports["lxr-police"]:HasDutyPermission(src, "arrest_cuff") then
+            sendWebhook("unauthorized_arrest", src, targetId, "Attempted hard cuff")
+            return
+        end
+        
+        arrestStates[targetId] = {
+            cuffed = true,
+            cuffType = "hard",
+            officer = src,
+            timestamp = os.time()
+        }
+        
+        TriggerClientEvent("lxr-police:arrest:hardCuff", targetId, GetPlayerPed(src))
+        sendWebhook("arrest_hardCuff", src, targetId, "Hard cuff applied - full arrest")
+        exports["lxr-police"]:logAudit(src, "arrest_hardCuff", "player", targetId, "Hard cuff applied - full arrest")
+        
+        -- Update activity
+        exports["lxr-police"]:UpdateActivity(src)
+    end) then
         return
     end
-    
-    arrestStates[targetId] = {
-        cuffed = true,
-        cuffType = "hard",
-        officer = src,
-        timestamp = os.time()
-    }
-    
-    TriggerClientEvent("lxr-police:arrest:hardCuff", targetId, GetPlayerPed(src))
-    sendWebhook("arrest_hardCuff", src, targetId, "Hard cuff applied - full arrest")
-    exports["lxr-police"]:logAudit(src, "arrest_hardCuff", "player", targetId, "Hard cuff applied - full arrest")
 end)
 
 RegisterNetEvent("lxr-police:arrest:uncuff")
