@@ -30,14 +30,32 @@ local currentJournalEntries = {}
 -- JOURNAL COMMANDS
 -- ══════════════════════════════════════════════════════════════
 
+-- Simple text input helper function (since GetTextInput may not exist)
+local function GetJournalInput(title, placeholder, maxLength)
+    -- Use AddTextEntry and DisplayOnscreenKeyboard for RedM text input
+    AddTextEntry("JOURNAL_INPUT", title)
+    DisplayOnscreenKeyboard(1, "JOURNAL_INPUT", "", placeholder, "", "", "", maxLength or 500)
+    
+    while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
+        Citizen.Wait(0)
+    end
+    
+    if UpdateOnscreenKeyboard() ~= 2 then
+        local result = GetOnscreenKeyboardResult()
+        return result
+    else
+        return nil
+    end
+end
+
 -- Open journal to write new note
 RegisterCommand("journal", function()
     if not exports["lxr-police"]:IsOfficer(GetPlayerServerId(PlayerId())) then
         return
     end
     
-    -- Simple input prompt for writing note (period-accurate, no fancy UI)
-    local note = exports["lxr-police"]:GetTextInput("Write Journal Entry", "Your field observations...", 500)
+    -- Get input for journal entry
+    local note = GetJournalInput("Journal Entry", "Write your field observations...", 500)
     
     if note and #note > 0 then
         TriggerServerEvent("lxr-police:journal:writeNote", note)
@@ -149,26 +167,32 @@ end)
 -- STATION RECORDS OFFICE MARKERS
 -- ══════════════════════════════════════════════════════════════
 
+-- RedM native hash constants for better readability
+local BLIP_HASH_DOCUMENT = -1230993421  -- Document/book icon for records office
+local BLIP_HASH_WANTED = 1960216838     -- Wanted poster icon
+local BLIP_ADD_COORDS = 0x554D9D53F696D002  -- BlipAddForCoords native
+local BLIP_SET_NAME = 0x9CB1A1623062F402    -- SetBlipName native
+
 local recordsOfficeBlips = {}
 
 Citizen.CreateThread(function()
     for stationName, station in pairs(Config.Stations) do
         if station.recordsOffice then
             -- Create blip for records office
-            local blip = Citizen.InvokeNative(0x554D9D53F696D002, 1664425300, station.recordsOffice)  -- BlipAddForCoords
-            SetBlipSprite(blip, -1230993421, true)  -- Document icon
+            local blip = Citizen.InvokeNative(BLIP_ADD_COORDS, 1664425300, station.recordsOffice)
+            SetBlipSprite(blip, BLIP_HASH_DOCUMENT, true)
             SetBlipScale(blip, 0.2)
-            Citizen.InvokeNative(0x9CB1A1623062F402, blip, "Records Office")  -- SetBlipName
+            Citizen.InvokeNative(BLIP_SET_NAME, blip, "Records Office")
             
             table.insert(recordsOfficeBlips, blip)
         end
         
         if station.wantedBoard then
             -- Create blip for wanted board
-            local blip = Citizen.InvokeNative(0x554D9D53F696D002, 1664425300, station.wantedBoard)
-            SetBlipSprite(blip, 1960216838, true)  -- Wanted poster icon
+            local blip = Citizen.InvokeNative(BLIP_ADD_COORDS, 1664425300, station.wantedBoard)
+            SetBlipSprite(blip, BLIP_HASH_WANTED, true)
             SetBlipScale(blip, 0.2)
-            Citizen.InvokeNative(0x9CB1A1623062F402, blip, "Wanted Board")
+            Citizen.InvokeNative(BLIP_SET_NAME, blip, "Wanted Board")
             
             table.insert(recordsOfficeBlips, blip)
         end

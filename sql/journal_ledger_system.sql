@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `leo_roster` (
 
 -- Additional composite indices for common queries
 ALTER TABLE `leo_arrests` ADD INDEX `idx_citizen_date` (`citizen_id`, `date`);
-ALTER TABLE `leo_warrants` ADD INDEX `idx_active_warrants` (`status`, `citizen_id`) WHERE `status` = 'active';
+-- Note: MySQL doesn't support filtered indexes. Use views or application-level filtering for active warrants.
 ALTER TABLE `leo_audit_log` ADD INDEX `idx_recent_actions` (`timestamp` DESC, `action`);
 
 -- ══════════════════════════════════════════════════════════════

@@ -27,7 +27,7 @@
 -- JOURNAL SYSTEM - Officer's Personal Notebook
 -- ══════════════════════════════════════════════════════════════
 
-local officerJournals = {} -- Store journal entries by officer ID
+-- Note: In-memory storage removed for consistency. All journal entries stored in database only.
 
 -- Write note in officer's journal
 RegisterNetEvent("lxr-police:journal:writeNote")
@@ -41,21 +41,7 @@ AddEventHandler("lxr-police:journal:writeNote", function(note)
     local player = exports["lxr-police"]:GetPlayer(src)
     local officerId = player.identifier
     
-    if not officerJournals[officerId] then
-        officerJournals[officerId] = {}
-    end
-    
-    local entry = {
-        id = #officerJournals[officerId] + 1,
-        timestamp = os.date("%B %d, %Y - %I:%M %p"), -- "January 20, 1899 - 02:30 PM"
-        note = note,
-        officer = player.name or "Unknown",
-        location = "Field Notes"
-    }
-    
-    table.insert(officerJournals[officerId], entry)
-    
-    -- Save to database for persistence
+    -- Save directly to database for persistence
     MySQL.Async.execute("INSERT INTO leo_journal_entries (officer_id, note, timestamp) VALUES (@id, @note, NOW())", {
         ["@id"] = officerId,
         ["@note"] = note
@@ -88,15 +74,29 @@ end)
 -- ══════════════════════════════════════════════════════════════
 
 -- Check if player is at a law enforcement station
+-- Cached station coords for performance
+local stationCoords = {}
+
+Citizen.CreateThread(function()
+    -- Cache station coordinates on startup
+    for stationName, station in pairs(Config.Stations) do
+        if station.recordsOffice then
+            stationCoords[stationName] = {
+                coords = station.recordsOffice,
+                name = stationName
+            }
+        end
+    end
+end)
+
 local function IsAtStation(src)
     local playerCoords = GetEntityCoords(GetPlayerPed(src))
     
-    for stationName, station in pairs(Config.Stations) do
-        if station.recordsOffice then
-            local distance = #(playerCoords - station.recordsOffice)
-            if distance < 5.0 then  -- Must be within 5 meters
-                return true, stationName
-            end
+    -- Check cached coordinates for better performance
+    for _, station in pairs(stationCoords) do
+        local distance = #(playerCoords - station.coords)
+        if distance < 5.0 then  -- Must be within 5 meters
+            return true, station.name
         end
     end
     
@@ -119,10 +119,11 @@ AddEventHandler("lxr-police:ledger:searchCitizen", function(citizenName)
         return
     end
     
-    -- Simulate time delay for manual ledger search (2-5 seconds)
-    local searchTime = math.random(2000, 5000)
+    -- Notify client to show searching animation
+    TriggerClientEvent("lxr-police:notify", src, "Searching station ledgers for: " .. citizenName, "info")
     
-    Citizen.Wait(searchTime)
+    -- Simulate time delay for manual ledger search (client-side delay is better for performance)
+    -- Server processes immediately for optimal performance
     
     -- Search for citizen in ledger
     MySQL.Async.fetchAll([[
