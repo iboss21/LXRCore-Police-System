@@ -70,7 +70,8 @@ client_scripts {
     'client/evidence.lua',
     'client/evidence_collection.lua',
     'client/attachments.lua',
-    'client/mdt_client.lua',
+    'client/journal.lua',          -- NEW: Period-accurate journal system
+    -- 'client/mdt_client.lua',     -- DISABLED: Modern MDT replaced by journal
     'client/k9.lua',
 }
 
@@ -82,11 +83,12 @@ server_scripts {
     'server/audit.lua',
     'server/citations.lua',
     'server/dispatch.lua',
-    'server/mdt.lua',
-    'server/mdt_enhanced.lua',
+    'server/journal_ledger.lua',  -- NEW: Period-accurate journal/ledger system
+    -- 'server/mdt.lua',           -- DISABLED: Replaced by journal_ledger.lua
+    -- 'server/mdt_enhanced.lua',  -- DISABLED: Replaced by journal_ledger.lua
     'server/permissions.lua',
     'server/players.lua',
-    'server/profiler.lua',
+    -- 'server/profiler.lua',      -- DISABLED: Performance overhead (enable only for debugging)
     'server/evidence_management.lua',
     'server/bounty.lua',
     'server/posse.lua',
