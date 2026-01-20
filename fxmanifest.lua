@@ -1,14 +1,27 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  The Land of Wolves RP - Law Enforcement System           ║
-    ║  1899 Wild West Authentic Police System for RedM          ║
-    ║  www.wolves.land                                          ║
-    ║                                                            ║
-    ║  Version: 1.0.0                                           ║
-    ║  Author: The Land of Wolves RP Team                       ║
-    ║  Framework: RSGCore / LXRCore                             ║
-    ║  Game: RedM (Red Dead Redemption 2)                       ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    FX MANIFEST
+    All resource configuration and file loading for the LXRCore Police System.
+    Compatible with RSGCore / LXRCore frameworks for RedM.
+    
+    Modify values below to customize The Land of Wolves police experience.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
 ]]
 
 fx_version 'cerulean'
