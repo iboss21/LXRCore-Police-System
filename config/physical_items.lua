@@ -1,10 +1,27 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  The Land of Wolves RP - Law Enforcement System           ║
-    ║  PHYSICAL ITEMS CONFIGURATION                              ║
-    ║  Records, Evidence, and Documentation Items                ║
-    ║  www.wolves.land                                          ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    CONFIGURATION FILE - PHYSICAL ITEMS
+    Physical items configuration for records, evidence, and documentation.
+    Controls incident reports, warrants, wanted posters, and evidence items.
+    
+    Modify values below to customize The Land of Wolves police experience.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
 ]]
 
 Config.PhysicalItems = {}

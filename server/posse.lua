@@ -1,3 +1,27 @@
+--[[
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    SERVER SCRIPT - POSSE SYSTEM
+    1899 Wild West posse formation system. Allows lawmen to deputize citizens
+    and form temporary law enforcement posses for manhunts and tracking.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
+]]
+
 -- Posse System for The Land of Wolves RP
 local activePosse = {}
 local posseMembers = {}

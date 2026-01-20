@@ -1,3 +1,27 @@
+--[[
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    CORE BRIDGE - LXRCORE
+    Framework bridge implementation for LXRCore. Provides unified API for
+    player management, job checks, and permission validation.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
+]]
+
 local M = {}
 
 function M.GetPlayer(src)

@@ -1,5 +1,25 @@
--- Wearable Items & Attachments System for The Land of Wolves RP
--- RedM bone attachment system for badges, tools, and equipment
+--[[
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    CLIENT SCRIPT - ATTACHMENTS
+    Wearable items and bone attachments for badges, tools, and police equipment using RedM natives.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
+]]
 
 local attachedItems = {}
 local playerAttachments = {}

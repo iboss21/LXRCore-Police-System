@@ -1,10 +1,27 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  The Land of Wolves RP - Law Enforcement System           ║
-    ║  SUPREME OMNI-LEVEL CONFIGURATION                         ║
-    ║  Everything Configurable - No Code Editing Required       ║
-    ║  www.wolves.land                                          ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    CONFIGURATION FILE - MAIN
+    Supreme omni-level configuration - everything configurable, no code editing required.
+    All branding, server identity, and main system settings.
+    
+    Modify values below to customize The Land of Wolves police experience.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
 ]]
 
 Config = {}
