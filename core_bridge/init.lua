@@ -1,3 +1,27 @@
+--[[
+    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
+    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                              
+    🐺 The Land of Wolves - LXRCore Police System
+    "Professional Law Enforcement & Management System"
+    
+    Version: 1.0.0
+    Author: iBoss
+    Website: www.wolves.land
+    Server: The Land of Wolves
+    
+    CORE BRIDGE - INITIALIZATION
+    Auto-detects and initializes the appropriate framework bridge (LXRCore,
+    RSGCore, or VORP) for seamless multi-framework compatibility.
+    
+    © 2026 iBoss | The Land of Wolves | www.wolves.land
+    License: All Rights Reserved
+]]
+
 local framework = nil
 
 if Config.Framework == "auto" then
