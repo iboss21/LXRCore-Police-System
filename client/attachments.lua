@@ -6,19 +6,28 @@
     ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
                                                               
-    🐺 The Land of Wolves - LXRCore Police System
+    🐺 LXR Core - Police System
     "Professional Law Enforcement & Management System"
     
-    Version: 1.0.0
-    Author: iBoss
-    Website: www.wolves.land
-    Server: The Land of Wolves
-    
+    ═══════════════════════════════════════════════════════════════════════════════
+    SERVER INFORMATION
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Server:      The Land of Wolves 🐺
+    Developer:   iBoss21 / The Lux Empire
+    Website:     https://www.wolves.land
+    Discord:     https://discord.gg/CrKcWdfd3A
+    GitHub:      https://github.com/iBoss21
+    Store:       https://theluxempire.tebex.io
+
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Version:     1.0.0
+
     CLIENT SCRIPT - ATTACHMENTS
     Wearable items and bone attachments for badges, tools, and police equipment using RedM natives.
     
-    © 2026 iBoss | The Land of Wolves | www.wolves.land
-    License: All Rights Reserved
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
 
 local attachedItems = {}
