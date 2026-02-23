@@ -51,7 +51,7 @@ AddEventHandler("tlw-law:dispatch:sendTelegraph", function(alertData)
     local players = GetPlayers()
     for _, playerId in ipairs(players) do
         local pid = tonumber(playerId)
-        if exports["lxr-police"]:IsOfficer(pid) then
+        if Bridge.IsOfficer(pid) then
             -- Check if in range (if telegraph has range limit)
             TriggerClientEvent("tlw-law:dispatch:alert", pid, dispatch)
         end
@@ -72,7 +72,7 @@ AddEventHandler("tlw-law:dispatch:sendTelegraph", function(alertData)
     })
     
     -- Log
-    exports["lxr-police"]:logAudit(src, "dispatch_send", "dispatch", dispatchId, "Type: " .. dispatch.type)
+    Bridge.logAudit(src, "dispatch_send", "dispatch", dispatchId, "Type: " .. dispatch.type)
     
     -- Delay for telegraph (period-accurate)
     if Config.Dispatch.Methods.telegraph.delay then
@@ -85,7 +85,7 @@ RegisterNetEvent("tlw-law:dispatch:respond")
 AddEventHandler("tlw-law:dispatch:respond", function(dispatchId)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -114,7 +114,7 @@ AddEventHandler("tlw-law:dispatch:respond", function(dispatchId)
     TriggerClientEvent("lxr-police:notify", src, "Responding to dispatch", "success")
     
     -- Log
-    exports["lxr-police"]:logAudit(src, "dispatch_respond", "dispatch", dispatchId, "Responding to call")
+    Bridge.logAudit(src, "dispatch_respond", "dispatch", dispatchId, "Responding to call")
 end)
 
 -- Complete dispatch
@@ -122,7 +122,7 @@ RegisterNetEvent("tlw-law:dispatch:complete")
 AddEventHandler("tlw-law:dispatch:complete", function(dispatchId)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -152,7 +152,7 @@ AddEventHandler("tlw-law:dispatch:complete", function(dispatchId)
     end
     
     -- Log
-    exports["lxr-police"]:logAudit(src, "dispatch_complete", "dispatch", dispatchId, "Completed call")
+    Bridge.logAudit(src, "dispatch_complete", "dispatch", dispatchId, "Completed call")
 end)
 
 -- Request backup
@@ -160,7 +160,7 @@ RegisterNetEvent("tlw-law:dispatch:requestBackup")
 AddEventHandler("tlw-law:dispatch:requestBackup", function()
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -184,7 +184,7 @@ AddEventHandler("tlw-law:dispatch:requestBackup", function()
     local players = GetPlayers()
     for _, playerId in ipairs(players) do
         local pid = tonumber(playerId)
-        if exports["lxr-police"]:IsOfficer(pid) and pid ~= src then
+        if Bridge.IsOfficer(pid) and pid ~= src then
             TriggerClientEvent("tlw-law:dispatch:backup", pid, dispatch)
         end
     end
@@ -192,7 +192,7 @@ AddEventHandler("tlw-law:dispatch:requestBackup", function()
     TriggerClientEvent("lxr-police:notify", src, "Backup requested", "success")
     
     -- Log
-    exports["lxr-police"]:logAudit(src, "dispatch_backup", "dispatch", dispatch.id, "Requested backup")
+    Bridge.logAudit(src, "dispatch_backup", "dispatch", dispatch.id, "Requested backup")
 end)
 
 -- Get active dispatches
@@ -200,7 +200,7 @@ RegisterNetEvent("tlw-law:dispatch:getActive")
 AddEventHandler("tlw-law:dispatch:getActive", function()
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     

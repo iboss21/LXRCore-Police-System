@@ -34,11 +34,11 @@ RegisterNetEvent("lxr-police:journal:writeNote")
 AddEventHandler("lxr-police:journal:writeNote", function(note)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     local officerId = player.identifier
     
     -- Save directly to database for persistence
@@ -55,11 +55,11 @@ RegisterNetEvent("lxr-police:journal:readEntries")
 AddEventHandler("lxr-police:journal:readEntries", function()
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     local officerId = player.identifier
     
     MySQL.Async.fetchAll("SELECT * FROM leo_journal_entries WHERE officer_id = @id ORDER BY timestamp DESC LIMIT 50", {
@@ -108,7 +108,7 @@ RegisterNetEvent("lxr-police:ledger:searchCitizen")
 AddEventHandler("lxr-police:ledger:searchCitizen", function(citizenName)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -149,7 +149,7 @@ RegisterNetEvent("lxr-police:ledger:recordArrest")
 AddEventHandler("lxr-police:ledger:recordArrest", function(citizenId, charges, jailTime)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -160,7 +160,7 @@ AddEventHandler("lxr-police:ledger:recordArrest", function(citizenId, charges, j
         return
     end
     
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     
     MySQL.Async.execute([[
         INSERT INTO leo_arrests (citizen_id, officer_id, station, charges, jail_time, date)
@@ -173,7 +173,7 @@ AddEventHandler("lxr-police:ledger:recordArrest", function(citizenId, charges, j
         ["@time"] = jailTime
     })
     
-    exports["lxr-police"]:logAudit(src, "arrest_recorded", "ledger", citizenId, "Arrest entered in " .. stationName .. " ledger")
+    Bridge.logAudit(src, "arrest_recorded", "ledger", citizenId, "Arrest entered in " .. stationName .. " ledger")
     
     TriggerClientEvent("lxr-police:notify", src, "Arrest recorded in station ledger", "success")
 end)
@@ -189,7 +189,7 @@ RegisterNetEvent("lxr-police:poster:create")
 AddEventHandler("lxr-police:poster:create", function(citizenId, bounty, crimes)
     local src = source
     
-    if not exports["lxr-police"]:HasPermission(src, "warrant_create") then
+    if not Bridge.HasPermission(src, "warrant_create") then
         TriggerClientEvent("lxr-police:notify", src, "You don't have permission to create wanted posters", "error")
         return
     end
@@ -239,7 +239,7 @@ AddEventHandler("lxr-police:poster:create", function(citizenId, bounty, crimes)
         
         TriggerClientEvent("lxr-police:notify", src, "Wanted poster created for " .. citizen[1].name, "success")
         
-        exports["lxr-police"]:logAudit(src, "poster_created", "wanted", citizenId, "Wanted poster created at " .. stationName)
+        Bridge.logAudit(src, "poster_created", "wanted", citizenId, "Wanted poster created at " .. stationName)
     end)
 end)
 

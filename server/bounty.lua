@@ -32,12 +32,12 @@ RegisterNetEvent("tlw-law:bounty:createPoster")
 AddEventHandler("tlw-law:bounty:createPoster", function(targetId, bountyAmount, crimes, description)
     local src = source
     
-    if not exports["lxr-police"]:HasPermission(src, "bounty_place") then
+    if not Bridge.HasPermission(src, "bounty_place") then
         TriggerClientEvent("lxr-police:notify", src, "You don't have permission to place bounties", "error")
         return
     end
     
-    local targetPlayer = exports["lxr-police"]:GetPlayer(targetId)
+    local targetPlayer = Bridge.GetPlayer(targetId)
     if not targetPlayer then
         TriggerClientEvent("lxr-police:notify", src, "Player not found", "error")
         return
@@ -86,7 +86,7 @@ AddEventHandler("tlw-law:bounty:createPoster", function(targetId, bountyAmount, 
     TriggerClientEvent("tlw-law:bounty:newPoster", -1, poster)
     
     -- Log
-    exports["lxr-police"]:logAudit(src, "bounty_create", "poster", posterId, "Bounty: $" .. bountyAmount .. " for " .. name)
+    Bridge.logAudit(src, "bounty_create", "poster", posterId, "Bounty: $" .. bountyAmount .. " for " .. name)
     
     TriggerClientEvent("lxr-police:notify", src, "Wanted poster created: $" .. bountyAmount, "success")
 end)
@@ -96,7 +96,7 @@ RegisterNetEvent("tlw-law:bounty:claim")
 AddEventHandler("tlw-law:bounty:claim", function(posterId, targetId, isAlive)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) and not isBountyHunter(src) then
+    if not Bridge.IsOfficer(src) and not isBountyHunter(src) then
         TriggerClientEvent("lxr-police:notify", src, "You're not authorized to claim bounties", "error")
         return
     end
@@ -134,14 +134,14 @@ AddEventHandler("tlw-law:bounty:claim", function(posterId, targetId, isAlive)
     })
     
     -- Pay reward
-    exports["lxr-police"]:AddMoney(src, "cash", reward)
+    Bridge.AddMoney(src, "cash", reward)
     
     -- Notify
     TriggerClientEvent("lxr-police:notify", src, "Bounty claimed! Reward: $" .. reward, "success")
     TriggerClientEvent("tlw-law:bounty:posterClaimed", -1, posterId)
     
     -- Log
-    exports["lxr-police"]:logAudit(src, "bounty_claim", "poster", posterId, "Claimed bounty: $" .. reward)
+    Bridge.logAudit(src, "bounty_claim", "poster", posterId, "Claimed bounty: $" .. reward)
 end)
 
 -- Get active bounties
@@ -171,7 +171,7 @@ AddEventHandler("tlw-law:bounty:getLicense", function()
     
     local cost = Config.Bounty.LicenseCost or 250
     
-    if exports["lxr-police"]:RemoveMoney(src, "cash", cost) then
+    if Bridge.RemoveMoney(src, "cash", cost) then
         bountyHunters[src] = {
             obtained = os.time(),
             captures = 0
@@ -188,7 +188,7 @@ end)
 
 -- Helper functions
 function isBountyHunter(src)
-    return bountyHunters[src] ~= nil or exports["lxr-police"]:GetJob(src) == Config.Bounty.BountyHunterJob
+    return bountyHunters[src] ~= nil or Bridge.GetJob(src) == Config.Bounty.BountyHunterJob
 end
 
 function findPosterById(id)

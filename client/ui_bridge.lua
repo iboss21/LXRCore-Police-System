@@ -23,7 +23,7 @@
 
 RegisterCommand("mdt", function()
     SetNuiFocus(true, true)
-    SendNUIMessage({type="openMDT", player=exports["lxr-police"]:GetPlayerId()})
+    SendNUIMessage({type="openMDT", player=GetPlayerServerId(PlayerId())})
 end)
 
 RegisterNUICallback("searchCitizen", function(data, cb)

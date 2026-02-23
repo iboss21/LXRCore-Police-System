@@ -55,11 +55,11 @@ shared_scripts {
     'config/k9_system.lua',
     'config/statutes.lua',
     'config/locales/en.lua',
+    'shared/bridge.lua',
 }
 
 -- Client Scripts
 client_scripts {
-    'core_bridge/init.lua',
     'client/arrest.lua',
     'client/jail.lua',
     'client/jail_client.lua',
@@ -80,7 +80,6 @@ client_scripts {
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/versionchecker.lua',
-    'core_bridge/init.lua',
     'server/duty_system.lua',
     'server/anti_abuse.lua',
     'server/warrant_system.lua',

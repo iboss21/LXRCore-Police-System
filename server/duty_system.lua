@@ -43,11 +43,11 @@ end
 ---@param state boolean On/off duty
 ---@param force boolean Skip checks
 local function SetDutyState(src, state, force)
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     if not player then return false end
     
     -- Check if player is LEO
-    if not exports["lxr-police"]:IsOfficer(src) and not force then
+    if not Bridge.IsOfficer(src) and not force then
         return false
     end
     
@@ -61,7 +61,7 @@ local function SetDutyState(src, state, force)
         
         -- Log duty start
         if Config.LEOCore and Config.LEOCore.Audit.LogDutyChanges then
-            exports["lxr-police"]:logAudit(src, "duty_on", "duty", 0, "Clocked in")
+            Bridge.logAudit(src, "duty_on", "duty", 0, "Clocked in")
             
             -- Database tracking
             if Config.LEOCore.Duty.TrackDutyTime then
@@ -88,7 +88,7 @@ local function SetDutyState(src, state, force)
         
         -- Log duty end
         if Config.LEOCore and Config.LEOCore.Audit.LogDutyChanges then
-            exports["lxr-police"]:logAudit(src, "duty_off", "duty", dutyTime, "Clocked out - " .. dutyTime .. "s on duty")
+            Bridge.logAudit(src, "duty_off", "duty", dutyTime, "Clocked out - " .. dutyTime .. "s on duty")
             
             -- Update database
             if Config.LEOCore.Duty.TrackDutyTime then
@@ -132,7 +132,7 @@ end
 ---@return boolean
 function HasDutyPermission(src, permission)
     -- Check if officer
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return false
     end
     
@@ -149,7 +149,7 @@ function HasDutyPermission(src, permission)
     end
     
     -- Check rank requirement
-    local grade = exports["lxr-police"]:GetGrade(src)
+    local grade = Bridge.GetGrade(src)
     if grade < permDef.minRank then
         TriggerClientEvent("lxr-police:notify", src, "Insufficient rank for this action", "error")
         return false
@@ -227,7 +227,7 @@ if Config.LEOCore and Config.LEOCore.Duty.AFKTimeoutMinutes > 0 then
                         "You have been clocked out due to inactivity",
                         "error"
                     )
-                    exports["lxr-police"]:logAudit(src, "duty_afk_timeout", "duty", 0, 
+                    Bridge.logAudit(src, "duty_afk_timeout", "duty", 0, 
                         "Auto clocked out after " .. afkMinutes .. " minutes AFK"
                     )
                 end
@@ -251,7 +251,7 @@ AddEventHandler("lxr-police:duty:toggle", function()
     local src = source
     UpdateActivity(src)
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         TriggerClientEvent("lxr-police:notify", src, "You are not law enforcement", "error")
         return
     end
@@ -265,8 +265,8 @@ AddEventHandler("lxr-police:duty:clockin", function(station)
     local src = source
     UpdateActivity(src)
     
-    if not exports["lxr-police"]:IsOfficer(src) then
-        exports["lxr-police"]:logAudit(src, "unauthorized_duty", "station", station, "Attempted unauthorized clock-in")
+    if not Bridge.IsOfficer(src) then
+        Bridge.logAudit(src, "unauthorized_duty", "station", station, "Attempted unauthorized clock-in")
         DropPlayer(src, "Unauthorized duty attempt")
         return
     end
@@ -296,13 +296,13 @@ AddEventHandler("playerDropped", function(reason)
     if IsOnDuty(src) then
         -- Log duty end on disconnect
         local dutyTime = dutyStartTimes[src] and (os.time() - dutyStartTimes[src]) or 0
-        exports["lxr-police"]:logAudit(src, "duty_disconnect", "duty", dutyTime, 
+        Bridge.logAudit(src, "duty_disconnect", "duty", dutyTime, 
             "Disconnected while on duty - Reason: " .. reason
         )
         
         -- Update database
         if Config.LEOCore and Config.LEOCore.Duty.TrackDutyTime then
-            local player = exports["lxr-police"]:GetPlayer(src)
+            local player = Bridge.GetPlayer(src)
             if player then
                 MySQL.Async.execute([[
                     UPDATE leo_duty_logs 

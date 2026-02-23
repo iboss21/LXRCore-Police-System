@@ -101,7 +101,7 @@ local function collectEvidence(evidenceId)
         TaskPlayAnim(ped, evidenceInfo.anim.dict, evidenceInfo.anim.anim, 8.0, -8.0, evidenceInfo.collectTime, 1, 0, false, false, false)
     end
     
-    exports["lxr-police"]:Progress("Collecting Evidence", evidenceInfo.collectTime, false, true, {
+    Bridge.Progress("Collecting Evidence", evidenceInfo.collectTime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -126,7 +126,7 @@ CreateThread(function()
         local playerPed = PlayerPedId()
         local playerCoords = GetEntityCoords(playerPed)
         
-        if exports["lxr-police"]:IsOfficer(PlayerId()) then
+        if Bridge.IsOfficer(PlayerId()) then
             for id, evidence in pairs(evidenceMarkers) do
                 local distance = #(playerCoords - evidence.coords)
                 
@@ -188,7 +188,7 @@ end)
 
 -- Evidence bag system
 RegisterCommand("evidence-bag", function()
-    if exports["lxr-police"]:IsOfficer(PlayerId()) then
+    if Bridge.IsOfficer(PlayerId()) then
         -- Check for nearby evidence
         local playerPed = PlayerPedId()
         local playerCoords = GetEntityCoords(playerPed)
@@ -204,16 +204,16 @@ RegisterCommand("evidence-bag", function()
         if #nearbyEvidence > 0 then
             TriggerServerEvent("lxr-police:evidence:showBagMenu", nearbyEvidence)
         else
-            exports["lxr-police"]:Notify("No evidence nearby to bag", "error")
+            Bridge.Notify("No evidence nearby to bag", "error")
         end
     end
 end)
 
 -- Photo evidence
 RegisterCommand("photo-evidence", function()
-    if exports["lxr-police"]:IsOfficer(PlayerId()) then
+    if Bridge.IsOfficer(PlayerId()) then
         -- Take screenshot
-        exports["lxr-police"]:Notify("Taking photo evidence...", "primary")
+        Bridge.Notify("Taking photo evidence...", "primary")
         
         CreateMobilePhone(0)
         CellCamActivate(true, true)
@@ -228,13 +228,13 @@ RegisterCommand("photo-evidence", function()
                     }
                     
                     TriggerServerEvent("lxr-police:evidence:photoTaken", photoData)
-                    exports["lxr-police"]:Notify("Photo evidence captured", "success")
+                    Bridge.Notify("Photo evidence captured", "success")
                     
                     CellCamActivate(false, false)
                     DestroyMobilePhone()
                     break
                 elseif IsControlJustPressed(1, 0x308588E6) then -- Backspace to cancel
-                    exports["lxr-police"]:Notify("Photo cancelled", "error")
+                    Bridge.Notify("Photo cancelled", "error")
                     CellCamActivate(false, false)
                     DestroyMobilePhone()
                     break
@@ -249,7 +249,7 @@ end)
 local tapeObjects = {}
 
 RegisterCommand("crime-tape", function()
-    if exports["lxr-police"]:IsOfficer(PlayerId()) then
+    if Bridge.IsOfficer(PlayerId()) then
         local ped = PlayerPedId()
         local coords = GetEntityCoords(ped)
         local heading = GetEntityHeading(ped)
@@ -261,12 +261,12 @@ RegisterCommand("crime-tape", function()
         FreezeEntityPosition(tape, true)
         
         table.insert(tapeObjects, tape)
-        exports["lxr-police"]:Notify("Crime scene tape placed", "success")
+        Bridge.Notify("Crime scene tape placed", "success")
     end
 end)
 
 RegisterCommand("remove-tape", function()
-    if exports["lxr-police"]:IsOfficer(PlayerId()) then
+    if Bridge.IsOfficer(PlayerId()) then
         local ped = PlayerPedId()
         local coords = GetEntityCoords(ped)
         
@@ -277,13 +277,13 @@ RegisterCommand("remove-tape", function()
                 if #(coords - tapeCoords) < 3.0 then
                     DeleteObject(tape)
                     table.remove(tapeObjects, i)
-                    exports["lxr-police"]:Notify("Crime scene tape removed", "success")
+                    Bridge.Notify("Crime scene tape removed", "success")
                     return
                 end
             end
         end
         
-        exports["lxr-police"]:Notify("No tape nearby to remove", "error")
+        Bridge.Notify("No tape nearby to remove", "error")
     end
 end)
 
