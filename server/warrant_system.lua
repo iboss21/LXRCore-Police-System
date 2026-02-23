@@ -1,10 +1,25 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  Warrant System - Supervisor Approval Required           ║
-    ║  Arrest, Search, and Bench Warrants                       ║
-    ║  Probable Cause, Approval Workflow, Auto-Expiry           ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
+    Version: 1.0.0
+    Developer: iBoss21 / The Lux Empire
+    Website:   https://www.wolves.land
+    Discord:   https://discord.gg/CrKcWdfd3A
+    GitHub:    https://github.com/iBoss21
+
+    SERVER SCRIPT - WARRANT SYSTEM
+    Warrant issuance, tracking, and execution for law enforcement.
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
+
 
 -- Pending warrant approvals
 local pendingWarrants = {}

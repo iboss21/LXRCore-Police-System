@@ -1,33 +1,25 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  Law Book - 1899 Authentic Charges                        ║
-    ║  Centralized Charge Configuration                         ║
-    ║  Severity, Time, Fines, Bail Eligibility                  ║
-    ╚════════════════════════════════════════════════════════════╝
-    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
-    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
-    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
-    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
-    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
-    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
-                                                              
-    🐺 The Land of Wolves - LXRCore Police System
-    "Professional Law Enforcement & Management System"
-    
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
     Version: 1.0.0
-    Author: iBoss
-    Website: www.wolves.land
-    Server: The Land of Wolves
-    
-    CONFIGURATION FILE - STATUTES
-    1899 Wild West law statutes and crime definitions. All crimes, fines,
-    and jail times are configurable for period-accurate law enforcement.
-    
-    Modify values below to customize The Land of Wolves police experience.
-    
-    © 2026 iBoss | The Land of Wolves | www.wolves.land
-    License: All Rights Reserved
+    Developer: iBoss21 / The Lux Empire
+    Website:   https://www.wolves.land
+    Discord:   https://discord.gg/CrKcWdfd3A
+    GitHub:    https://github.com/iBoss21
+
+    CONFIGURATION - STATUTES OF THE LAW
+    1899 period-accurate legal statutes, charges, and sentencing guidelines.
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
+
 
 Statutes = {
     -- ══════════════════════════════════════════════════════════

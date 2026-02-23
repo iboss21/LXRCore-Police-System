@@ -1,10 +1,25 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  LEO Core Configuration - PRD Compliant                   ║
-    ║  Server-Authoritative, Abuse-Resistant System             ║
-    ║  RedM Law Enforcement with MDT                            ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
+    Version: 1.0.0
+    Developer: iBoss21 / The Lux Empire
+    Website:   https://www.wolves.land
+    Discord:   https://discord.gg/CrKcWdfd3A
+    GitHub:    https://github.com/iBoss21
+
+    CONFIGURATION - LEO CORE
+    Core law enforcement officer settings, anti-abuse, and system parameters.
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
+
 
 Config.LEOCore = {}
 

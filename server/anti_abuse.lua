@@ -1,10 +1,25 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  Anti-Abuse System                                        ║
-    ║  Rate Limiting, Suspicious Activity Detection             ║
-    ║  Distance Checks, Server-Side Validation                  ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
+    Version: 1.0.0
+    Developer: iBoss21 / The Lux Empire
+    Website:   https://www.wolves.land
+    Discord:   https://discord.gg/CrKcWdfd3A
+    GitHub:    https://github.com/iBoss21
+
+    SERVER SCRIPT - ANTI-ABUSE SYSTEM
+    Rate limiting, suspicious activity detection, and server-side validation.
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
+
 
 -- Rate limit tracking
 local rateLimits = {}

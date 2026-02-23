@@ -1,28 +1,159 @@
 --[[
-    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
-    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
-    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
-    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
-    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
-    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
-                                                              
-    🐺 The Land of Wolves - LXRCore Police System
-    "Professional Law Enforcement & Management System"
-    
-    Version: 1.0.0
-    Author: iBoss
-    Website: www.wolves.land
-    Server: The Land of Wolves
-    
-    CONFIGURATION FILE
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
     All police system settings are configurable here. Settings control law enforcement
     jobs, stations, crimes, equipment, and features for 1899 Wild West authentic gameplay.
-    
-    Modify values below to customize The Land of Wolves police experience.
-    
-    © 2026 iBoss | The Land of Wolves | www.wolves.land
-    License: All Rights Reserved
+
+    ═══════════════════════════════════════════════════════════════════════════════
+    SERVER INFORMATION
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Server:      The Land of Wolves 🐺
+    Tagline:     Georgian RP 🇬🇪 | მგლების მიწა - რჩეულთა ადგილი!
+    Description: ისტორია ცოცხლდება აქ! (History Lives Here!)
+    Type:        Serious Hardcore Roleplay
+    Access:      Discord & Whitelisted
+
+    Developer:   iBoss21 / The Lux Empire
+    Website:     https://www.wolves.land
+    Discord:     https://discord.gg/CrKcWdfd3A
+    GitHub:      https://github.com/iBoss21
+    Store:       https://theluxempire.tebex.io
+    Server:      https://servers.redm.net/servers/detail/8gj7eb
+
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Version: 1.0.0
+    Performance Target: Optimized for minimal server overhead and client FPS impact
+
+    Tags: RedM, Georgian, SeriousRP, Whitelist, LawEnforcement, Police, 1899
+
+    Framework Support:
+    - LXR Core (Primary)
+    - RSG Core (Primary)
+    - VORP Core (Supported)
+    - Standalone (Fallback)
+
+    ═══════════════════════════════════════════════════════════════════════════════
+    CREDITS
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Script Author: iBoss21 / The Lux Empire for The Land of Wolves
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- 🐺 RESOURCE NAME PROTECTION - RUNTIME CHECK
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+local REQUIRED_RESOURCE_NAME <const> = 'lxr-police'
+local currentResourceName = GetCurrentResourceName()
+
+if currentResourceName ~= REQUIRED_RESOURCE_NAME then
+    error(string.format([[
+
+        ═══════════════════════════════════════════════════════════════════════════════
+        ❌ CRITICAL ERROR: RESOURCE NAME MISMATCH ❌
+        ═══════════════════════════════════════════════════════════════════════════════
+
+        Expected: %s
+        Got: %s
+
+        This resource MUST be named "%s".
+        Rename the folder to "%s" and restart.
+
+        🐺 wolves.land — The Land of Wolves | iBoss21 / The Lux Empire
+        Unauthorized redistribution or renaming is strictly prohibited.
+
+        ═══════════════════════════════════════════════════════════════════════════════
+
+    ]], REQUIRED_RESOURCE_NAME, currentResourceName, REQUIRED_RESOURCE_NAME, REQUIRED_RESOURCE_NAME))
+end
+
+-- ████████████████████████████████████████████████████████████████████████████████
+-- ████████████████████████ SERVER BRANDING & INFO ██████████████████████████
+-- ████████████████████████████████████████████████████████████████████████████████
+
+Config.ServerInfo = {
+    name        = 'The Land of Wolves 🐺',
+    tagline     = 'Georgian RP 🇬🇪 | მგლების მიწა - რჩეულთა ადგილი!',
+    description = 'ისტორია ცოცხლდება აქ!',  -- History Lives Here!
+    type        = 'Serious Hardcore Roleplay',
+    access      = 'Discord & Whitelisted',
+
+    -- Contact & Links
+    website      = 'https://www.wolves.land',
+    discord      = 'https://discord.gg/CrKcWdfd3A',
+    github       = 'https://github.com/iBoss21',
+    store        = 'https://theluxempire.tebex.io',
+    serverListing = 'https://servers.redm.net/servers/detail/8gj7eb',
+
+    -- Developer Info
+    developer = 'iBoss21 / The Lux Empire',
+
+    -- Tags
+    tags = {'RedM', 'Georgian', 'SeriousRP', 'Whitelist', 'LawEnforcement', 'Police', '1899'}
+}
+
+-- ████████████████████████████████████████████████████████████████████████████████
+-- ████████████████████████ FRAMEWORK CONFIGURATION █████████████████████████
+-- ████████████████████████████████████████████████████████████████████████████████
+
+--[[
+    Framework Priority (in order):
+    1. LXR-Core  (Primary)
+    2. RSG-Core  (Primary)
+    3. VORP Core (Supported)
+    4. Standalone (Fallback)
+]]
+
+Config.FrameworkSettings = {
+    ['lxr-core'] = {
+        resource      = 'lxr-core',
+        notifications = 'ox_lib',
+        inventory     = 'lxr-inventory',
+        target        = 'ox_target',
+        events = {
+            server   = 'lxr-core:server:%s',
+            client   = 'lxr-core:client:%s',
+            callback = 'lxr-core:callback:%s',
+        }
+    },
+    ['rsg-core'] = {
+        resource      = 'rsg-core',
+        notifications = 'ox_lib',
+        inventory     = 'rsg-inventory',
+        target        = 'ox_target',
+        events = {
+            server   = 'RSGCore:Server:%s',
+            client   = 'RSGCore:Client:%s',
+            callback = 'RSGCore:Callback:%s',
+        }
+    },
+    ['vorp_core'] = {
+        resource      = 'vorp_core',
+        notifications = 'vorp',
+        inventory     = 'vorp_inventory',
+        target        = 'vorp_core',
+        events = {
+            server = 'vorp:server:%s',
+            client = 'vorp:client:%s',
+        }
+    },
+    ['standalone'] = {
+        notifications = 'print',
+        inventory     = 'none',
+        target        = 'none',
+    }
+}
+
 
 Config = {}
 
@@ -398,3 +529,39 @@ Config.Animations = {
 
 -- Debug Mode
 Config.Debug = false
+-- ████████████████████████████████████████████████████████████████████████████████
+-- ████████████████████████ STARTUP BANNER ████████████████████████████████
+-- ████████████████████████████████████████████████████████████████████████████████
+
+CreateThread(function()
+    Wait(1500)
+    print([[
+
+        ═══════════════════════════════════════════════════════════════════════════════
+
+            ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+            ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+            ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+            ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+            ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+            ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+        ═══════════════════════════════════════════════════════════════════════════════
+        🐺 POLICE SYSTEM - SUCCESSFULLY LOADED
+        ═══════════════════════════════════════════════════════════════════════════════
+
+        Version:    1.0.0
+        Server:     ]] .. Config.ServerInfo.name .. [[
+        Framework:  Auto-detect enabled
+
+        ═══════════════════════════════════════════════════════════════════════════════
+
+        Developer:  iBoss21 / The Lux Empire
+        Website:    https://www.wolves.land
+        Discord:    https://discord.gg/CrKcWdfd3A
+        Tebex:      https://theluxempire.tebex.io
+
+        ═══════════════════════════════════════════════════════════════════════════════
+
+    ]])
+end)
