@@ -31,7 +31,7 @@ RegisterNetEvent("tlw-law:posse:create")
 AddEventHandler("tlw-law:posse:create", function(posseName)
     local src = source
     
-    if not exports["lxr-police"]:HasPermission(src, "posse_form") then
+    if not Bridge.HasPermission(src, "posse_form") then
         TriggerClientEvent("lxr-police:notify", src, "You don't have permission to form a posse", "error")
         return
     end
@@ -57,7 +57,7 @@ AddEventHandler("tlw-law:posse:create", function(posseName)
     TriggerClientEvent("tlw-law:posse:created", src, activePosse[src])
     TriggerClientEvent("lxr-police:notify", src, "Posse formed: " .. posseName, "success")
     
-    exports["lxr-police"]:logAudit(src, "posse_create", "posse", posseId, "Created posse: " .. posseName)
+    Bridge.logAudit(src, "posse_create", "posse", posseId, "Created posse: " .. posseName)
 end)
 
 -- Invite to posse
@@ -134,7 +134,7 @@ AddEventHandler("tlw-law:posse:accept", function(posseId)
     
     TriggerClientEvent("lxr-police:notify", src, "Joined posse: " .. posse.name, "success")
     
-    exports["lxr-police"]:logAudit(src, "posse_join", "posse", posseId, "Joined posse")
+    Bridge.logAudit(src, "posse_join", "posse", posseId, "Joined posse")
 end)
 
 -- Leave posse
@@ -212,7 +212,7 @@ function disbandPosse(posseId, leaderSrc)
     
     activePosse[leaderSrc] = nil
     
-    exports["lxr-police"]:logAudit(leaderSrc, "posse_disband", "posse", posseId, "Disbanded posse")
+    Bridge.logAudit(leaderSrc, "posse_disband", "posse", posseId, "Disbanded posse")
 end
 
 -- Posse chat

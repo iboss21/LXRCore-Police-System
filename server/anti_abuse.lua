@@ -80,7 +80,7 @@ end
 ---@param src number Player source
 ---@param action string Action type
 function HandleRateLimit(src, action)
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     if not player then return end
     
     TriggerClientEvent("lxr-police:notify", src, 
@@ -89,7 +89,7 @@ function HandleRateLimit(src, action)
     )
     
     -- Log the violation
-    exports["lxr-police"]:logAudit(src, "rate_limit_hit", "abuse", 0, 
+    Bridge.logAudit(src, "rate_limit_hit", "abuse", 0, 
         "Rate limit exceeded for action: " .. action
     )
     
@@ -139,13 +139,13 @@ end
 ---@param activityType string Type of activity
 ---@param details string Details
 function HandleSuspiciousActivity(src, activityType, details)
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     if not player then return end
     
     local action = Config.LEOCore and Config.LEOCore.AntiAbuse.OnAbuse or "log"
     
     -- Log the suspicious activity
-    exports["lxr-police"]:logAudit(src, "suspicious_activity", "abuse", 0, 
+    Bridge.logAudit(src, "suspicious_activity", "abuse", 0, 
         "Suspicious " .. activityType .. " detected: " .. (details or "")
     )
     
@@ -176,7 +176,7 @@ end
 ---@param activityType string Type of activity
 ---@param details string Details
 function NotifyAdmins(src, activityType, details)
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     if not player then return end
     
     local playerName = player.PlayerData and 
@@ -283,7 +283,7 @@ function ValidateDistance(src, target, maxDistance, action)
         )
         
         -- Log potential abuse
-        exports["lxr-police"]:logAudit(src, "distance_violation", "abuse", 0, 
+        Bridge.logAudit(src, "distance_violation", "abuse", 0, 
             action .. " attempted at " .. string.format("%.2f", distance) .. "m (max: " .. maxDistance .. "m)"
         )
         

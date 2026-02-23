@@ -50,7 +50,7 @@ end
 
 -- Open journal to write new note
 RegisterCommand("journal", function()
-    if not exports["lxr-police"]:IsOfficer(GetPlayerServerId(PlayerId())) then
+    if not Bridge.IsOfficer(GetPlayerServerId(PlayerId())) then
         return
     end
     
@@ -64,7 +64,7 @@ end, false)
 
 -- Read journal entries
 RegisterCommand("readjournal", function()
-    if not exports["lxr-police"]:IsOfficer(GetPlayerServerId(PlayerId())) then
+    if not Bridge.IsOfficer(GetPlayerServerId(PlayerId())) then
         return
     end
     
@@ -75,7 +75,7 @@ end, false)
 RegisterNetEvent("lxr-police:journal:showEntries")
 AddEventHandler("lxr-police:journal:showEntries", function(entries)
     if #entries == 0 then
-        exports["lxr-police"]:Notify("Journal is empty", "info")
+        Bridge.Notify("Journal is empty", "info")
         return
     end
     
@@ -94,19 +94,19 @@ end)
 
 -- Search citizen in station ledger
 RegisterCommand("searchledger", function(source, args)
-    if not exports["lxr-police"]:IsOfficer(GetPlayerServerId(PlayerId())) then
+    if not Bridge.IsOfficer(GetPlayerServerId(PlayerId())) then
         return
     end
     
     if not args[1] then
-        exports["lxr-police"]:Notify("Usage: /searchledger [name]", "error")
+        Bridge.Notify("Usage: /searchledger [name]", "error")
         return
     end
     
     local citizenName = table.concat(args, " ")
     
     -- Show searching animation
-    exports["lxr-police"]:Notify("Searching station ledgers for: " .. citizenName, "info")
+    Bridge.Notify("Searching station ledgers for: " .. citizenName, "info")
     
     TriggerServerEvent("lxr-police:ledger:searchCitizen", citizenName)
 end, false)
@@ -134,7 +134,7 @@ end)
 
 -- View wanted board
 RegisterCommand("wantedboard", function()
-    if not exports["lxr-police"]:IsOfficer(GetPlayerServerId(PlayerId())) then
+    if not Bridge.IsOfficer(GetPlayerServerId(PlayerId())) then
         -- Allow civilians to view wanted board too
     end
     
@@ -145,7 +145,7 @@ end, false)
 RegisterNetEvent("lxr-police:poster:showBoard")
 AddEventHandler("lxr-police:poster:showBoard", function(posters, stationName)
     if #posters == 0 then
-        exports["lxr-police"]:Notify("No wanted posters on the board", "info")
+        Bridge.Notify("No wanted posters on the board", "info")
         return
     end
     

@@ -89,8 +89,8 @@ AddEventHandler("lxr-police:arrest:softCuff", function(officerNetId)
     playCuffedLoop()
     
     -- Disable player control
-    exports["lxr-police"]:SetPlayerControl(false)
-    exports["lxr-police"]:Notify("You have been cuffed", "error")
+    Bridge.SetPlayerControl(false)
+    Bridge.Notify("You have been cuffed", "error")
 end)
 
 RegisterNetEvent("lxr-police:arrest:hardCuff")
@@ -106,7 +106,7 @@ AddEventHandler("lxr-police:arrest:hardCuff", function(officerNetId)
     FreezeEntityPosition(ped, true)
     playCuffedLoop()
     
-    exports["lxr-police"]:Notify("You have been arrested", "error")
+    Bridge.Notify("You have been arrested", "error")
 end)
 
 RegisterNetEvent("lxr-police:arrest:uncuff")
@@ -123,8 +123,8 @@ AddEventHandler("lxr-police:arrest:uncuff", function()
     FreezeEntityPosition(ped, false)
     DetachEntity(ped, true, true)
     
-    exports["lxr-police"]:SetPlayerControl(true)
-    exports["lxr-police"]:Notify("You have been uncuffed", "success")
+    Bridge.SetPlayerControl(true)
+    Bridge.Notify("You have been uncuffed", "success")
 end)
 
 RegisterNetEvent("lxr-police:arrest:drag")
@@ -133,7 +133,7 @@ AddEventHandler("lxr-police:arrest:drag", function(officerNetId)
     local ped = PlayerPedId()
     
     if not isCuffed then
-        exports["lxr-police"]:Notify("You must be cuffed to be dragged", "error")
+        Bridge.Notify("You must be cuffed to be dragged", "error")
         return
     end
     
@@ -167,7 +167,7 @@ AddEventHandler("lxr-police:arrest:search", function(officerNetId)
     
     -- Play search animation
     playArrestAnim(ARREST_ANIMS.search)
-    exports["lxr-police"]:Notify("You are being searched...", "primary")
+    Bridge.Notify("You are being searched...", "primary")
     
     Citizen.Wait(5000)
     ClearPedTasks(ped)
@@ -179,7 +179,7 @@ AddEventHandler("lxr-police:arrest:pushIntoVehicle", function(vehicleNetId, seat
     local ped = PlayerPedId()
     
     if not DoesEntityExist(vehicle) then
-        exports["lxr-police"]:Notify("Vehicle not found", "error")
+        Bridge.Notify("Vehicle not found", "error")
         return
     end
     
@@ -191,7 +191,7 @@ AddEventHandler("lxr-police:arrest:pushIntoVehicle", function(vehicleNetId, seat
     
     -- Put player in vehicle
     TaskEnterVehicle(ped, vehicle, 10000, seat or 2, 1.0, 1, 0)
-    exports["lxr-police"]:Notify("You have been placed in the vehicle", "primary")
+    Bridge.Notify("You have been placed in the vehicle", "primary")
 end)
 
 RegisterNetEvent("lxr-police:arrest:takeOutOfVehicle")

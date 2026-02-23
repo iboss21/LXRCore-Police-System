@@ -75,7 +75,7 @@ AddEventHandler("lxr-police:warrant:request", function(data)
     end
     
     -- Get officer info
-    local officer = exports["lxr-police"]:GetPlayer(src)
+    local officer = Bridge.GetPlayer(src)
     if not officer then return end
     
     -- Check if requires approval
@@ -105,7 +105,7 @@ AddEventHandler("lxr-police:warrant:request", function(data)
         NotifySupervisors(warrantId, pendingWarrants[warrantId])
         
         -- Log
-        exports["lxr-police"]:logAudit(src, "warrant_request", "warrant", warrantId, 
+        Bridge.logAudit(src, "warrant_request", "warrant", warrantId, 
             data.warrantType .. " warrant requested for citizen " .. data.citizenId
         )
         
@@ -139,7 +139,7 @@ AddEventHandler("lxr-police:warrant:approve", function(warrantId, approved, note
     end
     
     -- Get supervisor info
-    local supervisor = exports["lxr-police"]:GetPlayer(src)
+    local supervisor = Bridge.GetPlayer(src)
     if not supervisor then return end
     
     if approved then
@@ -175,7 +175,7 @@ AddEventHandler("lxr-police:warrant:approve", function(warrantId, approved, note
         end
         
         -- Log denial
-        exports["lxr-police"]:logAudit(src, "warrant_denied", "warrant", warrantId, 
+        Bridge.logAudit(src, "warrant_denied", "warrant", warrantId, 
             "Warrant denied - " .. warrant.denialNotes
         )
     end
@@ -236,7 +236,7 @@ AddEventHandler("lxr-police:warrant:execute", function(warrantId, targetId)
         })
         
         -- Log execution
-        exports["lxr-police"]:logAudit(src, "warrant_executed", "warrant", warrantId, 
+        Bridge.logAudit(src, "warrant_executed", "warrant", warrantId, 
             warrant.warrant_type .. " warrant executed on citizen " .. warrant.citizen_id
         )
         
@@ -287,7 +287,7 @@ function IssueWarrant(src, data, officer, approvalType, notes)
         ["@notes"] = notes or ""
     }, function(insertId)
         -- Log issuance
-        exports["lxr-police"]:logAudit(src, "warrant_issued", "warrant", insertId, 
+        Bridge.logAudit(src, "warrant_issued", "warrant", insertId, 
             data.warrantType .. " warrant issued for citizen " .. data.citizenId
         )
         
@@ -339,8 +339,8 @@ local function UpdateSupervisorCache()
     
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
-        if exports["lxr-police"]:IsOfficer(src) then
-            local grade = exports["lxr-police"]:GetGrade(src)
+        if Bridge.IsOfficer(src) then
+            local grade = Bridge.GetGrade(src)
             if grade >= minRank and exports["lxr-police"]:IsOnDuty(src) then
                 table.insert(supervisorCache, src)
             end
@@ -375,7 +375,7 @@ local playerCache = {}
 
 ---Update player cache
 local function UpdatePlayerCache(src)
-    local player = exports["lxr-police"]:GetPlayer(src)
+    local player = Bridge.GetPlayer(src)
     if player then
         local citizenId = player.PlayerData and player.PlayerData.citizenid or player.citizenid
         if citizenId then
@@ -404,7 +404,7 @@ function GetPlayerFromCitizenId(citizenId)
     local players = GetPlayers()
     for _, playerId in ipairs(players) do
         local src = tonumber(playerId)
-        local player = exports["lxr-police"]:GetPlayer(src)
+        local player = Bridge.GetPlayer(src)
         if player then
             local pCitizenId = player.PlayerData and player.PlayerData.citizenid or player.citizenid
             if pCitizenId == citizenId then

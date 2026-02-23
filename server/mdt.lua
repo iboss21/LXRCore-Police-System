@@ -32,7 +32,7 @@ AddEventHandler("lxr-police:mdt:searchCitizen", function(query)
     
     -- Check duty and permission
     if not exports["lxr-police"]:HasDutyPermission(src, "mdt_search") then
-        exports["lxr-police"]:logAudit(src, "unauthorized_mdt", "mdt", 0, "Search denied - off duty or no permission")
+        Bridge.logAudit(src, "unauthorized_mdt", "mdt", 0, "Search denied - off duty or no permission")
         return
     end
     
@@ -53,7 +53,7 @@ AddEventHandler("lxr-police:mdt:searchCitizen", function(query)
         TriggerClientEvent("lxr-police:mdt:searchResult", src, results)
     end)
     
-    exports["lxr-police"]:logAudit(src, "mdt_search", "mdt", 0, "Query: " .. query)
+    Bridge.logAudit(src, "mdt_search", "mdt", 0, "Query: " .. query)
 end)
 
 -- Get citizen profile
@@ -114,7 +114,7 @@ AddEventHandler("lxr-police:mdt:getCitizenProfile", function(citizenId)
         end)
     end)
     
-    exports["lxr-police"]:logAudit(src, "mdt_view_profile", "citizen", citizenId, "Viewed citizen profile")
+    Bridge.logAudit(src, "mdt_view_profile", "citizen", citizenId, "Viewed citizen profile")
 end)
 
 -- Create incident report
@@ -145,7 +145,7 @@ AddEventHandler("lxr-police:mdt:createReport", function(reportData)
     }, function(insertId)
         TriggerClientEvent("lxr-police:notify", src, "Report created successfully", "success")
         TriggerClientEvent("lxr-police:mdt:reportCreated", src, insertId)
-        exports["lxr-police"]:logAudit(src, "mdt_create_report", "report", insertId, "Created report: " .. reportData.title)
+        Bridge.logAudit(src, "mdt_create_report", "report", insertId, "Created report: " .. reportData.title)
     end)
 end)
 
@@ -153,7 +153,7 @@ end)
 RegisterNetEvent("lxr-police:mdt:updateReport")
 AddEventHandler("lxr-police:mdt:updateReport", function(reportId, reportData)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "mdt_edit") then return end
+    if not Bridge.HasPermission(src, "mdt_edit") then return end
     
     MySQL.Async.execute([[
         UPDATE mdt_reports SET
@@ -173,14 +173,14 @@ AddEventHandler("lxr-police:mdt:updateReport", function(reportId, reportData)
     })
     
     TriggerClientEvent("lxr-police:notify", src, "Report updated", "success")
-    exports["lxr-police"]:logAudit(src, "mdt_update_report", "report", reportId, "Updated report")
+    Bridge.logAudit(src, "mdt_update_report", "report", reportId, "Updated report")
 end)
 
 -- Create warrant
 RegisterNetEvent("lxr-police:mdt:createWarrant")
 AddEventHandler("lxr-police:mdt:createWarrant", function(warrantData)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "mdt_edit") then return end
+    if not Bridge.HasPermission(src, "mdt_edit") then return end
     
     MySQL.Async.execute([[
         INSERT INTO mdt_warrants (citizen_id, issued_by, warrant_type, charges, bail_amount, status, issued_at)
@@ -199,12 +199,12 @@ AddEventHandler("lxr-police:mdt:createWarrant", function(warrantData)
         -- Notify all officers
         local players = GetPlayers()
         for _, playerId in ipairs(players) do
-            if exports["lxr-police"]:IsOfficer(tonumber(playerId)) then
+            if Bridge.IsOfficer(tonumber(playerId)) then
                 TriggerClientEvent("lxr-police:notify", tonumber(playerId), "New warrant issued for citizen ID: " .. warrantData.citizenId, "primary")
             end
         end
         
-        exports["lxr-police"]:logAudit(src, "mdt_create_warrant", "warrant", insertId, "Issued warrant")
+        Bridge.logAudit(src, "mdt_create_warrant", "warrant", insertId, "Issued warrant")
     end)
 end)
 
@@ -212,7 +212,7 @@ end)
 RegisterNetEvent("lxr-police:mdt:executeWarrant")
 AddEventHandler("lxr-police:mdt:executeWarrant", function(warrantId)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "arrest") then return end
+    if not Bridge.HasPermission(src, "arrest") then return end
     
     MySQL.Async.execute([[
         UPDATE mdt_warrants SET status = @status, executed_at = @time, executed_by = @officer
@@ -225,14 +225,14 @@ AddEventHandler("lxr-police:mdt:executeWarrant", function(warrantId)
     })
     
     TriggerClientEvent("lxr-police:notify", src, "Warrant executed", "success")
-    exports["lxr-police"]:logAudit(src, "mdt_execute_warrant", "warrant", warrantId, "Executed warrant")
+    Bridge.logAudit(src, "mdt_execute_warrant", "warrant", warrantId, "Executed warrant")
 end)
 
 -- BOLO system
 RegisterNetEvent("lxr-police:mdt:createBOLO")
 AddEventHandler("lxr-police:mdt:createBOLO", function(boloData)
     local src = source
-    if not exports["lxr-police"]:HasPermission(src, "mdt_edit") then return end
+    if not Bridge.HasPermission(src, "mdt_edit") then return end
     
     MySQL.Async.execute([[
         INSERT INTO mdt_bolos (created_by, bolo_type, title, description, plate, suspect_name, status, created_at)
@@ -252,7 +252,7 @@ AddEventHandler("lxr-police:mdt:createBOLO", function(boloData)
         -- Notify all officers
         local players = GetPlayers()
         for _, playerId in ipairs(players) do
-            if exports["lxr-police"]:IsOfficer(tonumber(playerId)) then
+            if Bridge.IsOfficer(tonumber(playerId)) then
                 TriggerClientEvent("lxr-police:mdt:newBOLO", tonumber(playerId), {
                     id = insertId,
                     type = boloData.boloType,
@@ -262,7 +262,7 @@ AddEventHandler("lxr-police:mdt:createBOLO", function(boloData)
             end
         end
         
-        exports["lxr-police"]:logAudit(src, "mdt_create_bolo", "bolo", insertId, "Created BOLO: " .. boloData.title)
+        Bridge.logAudit(src, "mdt_create_bolo", "bolo", insertId, "Created BOLO: " .. boloData.title)
     end)
 end)
 
@@ -270,7 +270,7 @@ end)
 RegisterNetEvent("lxr-police:mdt:getBOLOs")
 AddEventHandler("lxr-police:mdt:getBOLOs", function()
     local src = source
-    if not exports["lxr-police"]:IsOfficer(src) then return end
+    if not Bridge.IsOfficer(src) then return end
     
     MySQL.Async.fetchAll([[
         SELECT b.*, c.name as officer_name
@@ -287,7 +287,7 @@ end)
 RegisterNetEvent("lxr-police:mdt:vehicleLookup")
 AddEventHandler("lxr-police:mdt:vehicleLookup", function(plate)
     local src = source
-    if not exports["lxr-police"]:IsOfficer(src) then return end
+    if not Bridge.IsOfficer(src) then return end
     
     MySQL.Async.fetchAll([[
         SELECT v.*, c.name as owner_name, c.identifier as owner_id
@@ -308,14 +308,14 @@ AddEventHandler("lxr-police:mdt:vehicleLookup", function(plate)
         end
     end)
     
-    exports["lxr-police"]:logAudit(src, "mdt_vehicle_lookup", "vehicle", plate, "Looked up vehicle")
+    Bridge.logAudit(src, "mdt_vehicle_lookup", "vehicle", plate, "Looked up vehicle")
 end)
 
 -- Officer roster
 RegisterNetEvent("lxr-police:mdt:getOfficerRoster")
 AddEventHandler("lxr-police:mdt:getOfficerRoster", function()
     local src = source
-    if not exports["lxr-police"]:IsOfficer(src) then return end
+    if not Bridge.IsOfficer(src) then return end
     
     MySQL.Async.fetchAll([[
         SELECT * FROM leo_roster
@@ -329,7 +329,7 @@ end)
 RegisterNetEvent("lxr-police:mdt:updateOfficerStatus")
 AddEventHandler("lxr-police:mdt:updateOfficerStatus", function(status)
     local src = source
-    if not exports["lxr-police"]:IsOfficer(src) then return end
+    if not Bridge.IsOfficer(src) then return end
     
     MySQL.Async.execute([[
         UPDATE leo_roster SET status = @status, last_active = @time
@@ -343,7 +343,7 @@ AddEventHandler("lxr-police:mdt:updateOfficerStatus", function(status)
     -- Notify other officers
     local players = GetPlayers()
     for _, playerId in ipairs(players) do
-        if exports["lxr-police"]:IsOfficer(tonumber(playerId)) and tonumber(playerId) ~= src then
+        if Bridge.IsOfficer(tonumber(playerId)) and tonumber(playerId) ~= src then
             TriggerClientEvent("lxr-police:mdt:officerStatusUpdate", tonumber(playerId), src, status)
         end
     end

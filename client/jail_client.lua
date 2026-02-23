@@ -54,7 +54,7 @@ AddEventHandler("lxr-police:jail:startSentence", function(data)
         chargeText = chargeText .. "- " .. charge.name .. "\n"
     end
     
-    exports["lxr-police"]:Notify("You are in jail!\n" .. chargeText, "error")
+    Bridge.Notify("You are in jail!\n" .. chargeText, "error")
     
     -- Start jail loop
     startJailLoop()
@@ -73,7 +73,7 @@ function startJailLoop()
                 if distance > 10.0 then
                     -- Teleport back to cell
                     SetEntityCoords(ped, sentenceData.cellCoords.x, sentenceData.cellCoords.y, sentenceData.cellCoords.z)
-                    exports["lxr-police"]:Notify("You cannot leave your cell!", "error")
+                    Bridge.Notify("You cannot leave your cell!", "error")
                 end
             end
             
@@ -97,7 +97,7 @@ AddEventHandler("lxr-police:jail:updateTime", function(remainingTime)
         if remainingTime % 30 == 0 then
             local minutes = math.floor(remainingTime / 60)
             local seconds = remainingTime % 60
-            exports["lxr-police"]:Notify("Remaining time: " .. minutes .. "m " .. seconds .. "s", "primary")
+            Bridge.Notify("Remaining time: " .. minutes .. "m " .. seconds .. "s", "primary")
         end
     end
 end)
@@ -119,7 +119,7 @@ AddEventHandler("lxr-police:jail:release", function(releaseCoords)
         jailBlip = nil
     end
     
-    exports["lxr-police"]:Notify("You have been released from prison", "success")
+    Bridge.Notify("You have been released from prison", "success")
 end)
 
 -- Jail UI
@@ -244,7 +244,7 @@ function startPrisonJob(jobType)
     end
     TaskPlayAnim(ped, "script_rc@rsc2@ig@p2", "action_work", 8.0, -8.0, duration, 1, 0, false, false, false)
     
-    exports["lxr-police"]:Progress("Working...", duration, false, true, {
+    Bridge.Progress("Working...", duration, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -256,7 +256,7 @@ function startPrisonJob(jobType)
     end, function()
         -- Cancelled
         ClearPedTasks(ped)
-        exports["lxr-police"]:Notify("Job cancelled", "error")
+        Bridge.Notify("Job cancelled", "error")
     end)
 end
 

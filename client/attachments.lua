@@ -298,10 +298,10 @@ end
 RegisterCommand("lantern", function()
     if playerAttachments["lantern"] then
         DetachItemFromPlayer("lantern")
-        exports["lxr-police"]:Notify("Lantern put away", "primary")
+        Bridge.Notify("Lantern put away", "primary")
     else
         AttachItemToPlayer("lantern")
-        exports["lxr-police"]:Notify("Lantern equipped", "success")
+        Bridge.Notify("Lantern equipped", "success")
     end
 end)
 
@@ -309,10 +309,10 @@ end)
 RegisterCommand("notebook", function()
     if playerAttachments["notebook"] then
         DetachItemFromPlayer("notebook")
-        exports["lxr-police"]:Notify("Notebook put away", "primary")
+        Bridge.Notify("Notebook put away", "primary")
     else
         AttachItemToPlayer("notebook")
-        exports["lxr-police"]:Notify("Notebook out", "success")
+        Bridge.Notify("Notebook out", "success")
     end
 end)
 
@@ -321,10 +321,10 @@ RegisterNetEvent("lxr-police:duty:setState")
 AddEventHandler("lxr-police:duty:setState", function(isOnDuty, job, rank)
     if isOnDuty then
         EquipDutyGear(job, rank)
-        exports["lxr-police"]:Notify("Duty gear equipped", "success")
+        Bridge.Notify("Duty gear equipped", "success")
     else
         ClearAllAttachments()
-        exports["lxr-police"]:Notify("Duty gear removed", "primary")
+        Bridge.Notify("Duty gear removed", "primary")
     end
 end)
 

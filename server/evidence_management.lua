@@ -31,7 +31,7 @@ RegisterNetEvent("lxr-police:evidence:collect")
 AddEventHandler("lxr-police:evidence:collect", function(evidenceId, evidenceType, data)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -63,7 +63,7 @@ AddEventHandler("lxr-police:evidence:collect", function(evidenceId, evidenceType
     })
     
     TriggerClientEvent("lxr-police:notify", src, "Evidence collected: " .. evidenceNumber, "success")
-    exports["lxr-police"]:logAudit(src, "evidence_collect", "evidence", evidenceNumber, "Collected " .. evidenceType)
+    Bridge.logAudit(src, "evidence_collect", "evidence", evidenceNumber, "Collected " .. evidenceType)
 end)
 
 -- Analyze evidence
@@ -71,7 +71,7 @@ RegisterNetEvent("lxr-police:evidence:analyze")
 AddEventHandler("lxr-police:evidence:analyze", function(evidenceNumber)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -150,7 +150,7 @@ function performAnalysis(src, evidence)
     })
     
     TriggerClientEvent("lxr-police:evidence:analysisComplete", src, analysisResults)
-    exports["lxr-police"]:logAudit(src, "evidence_analyze", "evidence", evidence.id, "Analyzed evidence")
+    Bridge.logAudit(src, "evidence_analyze", "evidence", evidence.id, "Analyzed evidence")
 end
 
 -- Constants
@@ -187,7 +187,7 @@ RegisterNetEvent("lxr-police:evidence:linkToCase")
 AddEventHandler("lxr-police:evidence:linkToCase", function(evidenceNumber, caseId)
     local src = source
     
-    if not exports["lxr-police"]:HasPermission(src, "mdt_edit") then
+    if not Bridge.HasPermission(src, "mdt_edit") then
         return
     end
     
@@ -199,7 +199,7 @@ AddEventHandler("lxr-police:evidence:linkToCase", function(evidenceNumber, caseI
     })
     
     TriggerClientEvent("lxr-police:notify", src, "Evidence linked to case", "success")
-    exports["lxr-police"]:logAudit(src, "evidence_link", "evidence", evidenceNumber, "Linked to case: " .. caseId)
+    Bridge.logAudit(src, "evidence_link", "evidence", evidenceNumber, "Linked to case: " .. caseId)
 end)
 
 -- Photo evidence
@@ -207,7 +207,7 @@ RegisterNetEvent("lxr-police:evidence:photoTaken")
 AddEventHandler("lxr-police:evidence:photoTaken", function(photoData)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -226,7 +226,7 @@ AddEventHandler("lxr-police:evidence:photoTaken", function(photoData)
         ["@status"] = "collected"
     })
     
-    exports["lxr-police"]:logAudit(src, "evidence_photo", "evidence", photoNumber, "Photo evidence captured")
+    Bridge.logAudit(src, "evidence_photo", "evidence", photoNumber, "Photo evidence captured")
 end)
 
 -- Get evidence by case
@@ -234,7 +234,7 @@ RegisterNetEvent("lxr-police:evidence:getByCaseId")
 AddEventHandler("lxr-police:evidence:getByCaseId", function(caseId)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -263,7 +263,7 @@ RegisterNetEvent("lxr-police:evidence:search")
 AddEventHandler("lxr-police:evidence:search", function(query)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -297,7 +297,7 @@ RegisterNetEvent("lxr-police:evidence:transfer")
 AddEventHandler("lxr-police:evidence:transfer", function(evidenceNumber, targetOfficer, reason)
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
@@ -314,7 +314,7 @@ AddEventHandler("lxr-police:evidence:transfer", function(evidenceNumber, targetO
     
     TriggerClientEvent("lxr-police:notify", src, "Evidence transferred", "success")
     TriggerClientEvent("lxr-police:notify", targetOfficer, "You received evidence: " .. evidenceNumber, "primary")
-    exports["lxr-police"]:logAudit(src, "evidence_transfer", "evidence", evidenceNumber, "Transferred to officer " .. targetOfficer)
+    Bridge.logAudit(src, "evidence_transfer", "evidence", evidenceNumber, "Transferred to officer " .. targetOfficer)
 end)
 
 -- Export functions

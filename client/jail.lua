@@ -73,7 +73,7 @@ RegisterNetEvent("lxr-police:jail:sentence")
 AddEventHandler("lxr-police:jail:sentence", function(targetId, charges, reason)
     local src = source
     
-    if not exports["lxr-police"]:HasPermission(src, "arrest") then
+    if not Bridge.HasPermission(src, "arrest") then
         TriggerClientEvent("lxr-police:notify", src, "You don't have permission to jail players", "error")
         return
     end
@@ -129,7 +129,7 @@ AddEventHandler("lxr-police:jail:sentence", function(targetId, charges, reason)
     TriggerClientEvent("lxr-police:notify", src, "Prisoner sent to jail for " .. jailTime .. " seconds", "success")
     TriggerClientEvent("lxr-police:notify", targetId, "You have been sentenced to " .. jailTime .. " seconds in jail", "error")
     
-    exports["lxr-police"]:logAudit(src, "jail_sentence", "player", targetId, "Jailed for " .. jailTime .. "s. Reason: " .. reason)
+    Bridge.logAudit(src, "jail_sentence", "player", targetId, "Jailed for " .. jailTime .. "s. Reason: " .. reason)
     
     -- Start sentence timer
     startSentenceTimer(targetId)
@@ -202,13 +202,13 @@ RegisterNetEvent("lxr-police:jail:release")
 AddEventHandler("lxr-police:jail:release", function(targetId, reason)
     local src = source
     
-    if not exports["lxr-police"]:HasPermission(src, "arrest") then
+    if not Bridge.HasPermission(src, "arrest") then
         TriggerClientEvent("lxr-police:notify", src, "You don't have permission to release prisoners", "error")
         return
     end
     
     releaseFromJail(targetId, reason or "officer_release")
-    exports["lxr-police"]:logAudit(src, "jail_release", "player", targetId, "Released. Reason: " .. (reason or "officer_release"))
+    Bridge.logAudit(src, "jail_release", "player", targetId, "Released. Reason: " .. (reason or "officer_release"))
 end)
 
 -- Parole application
@@ -229,10 +229,10 @@ AddEventHandler("lxr-police:jail:requestParole", function()
     -- Pay parole fine (50% of original fine)
     local paroleFine = math.floor(prisonerData[src].fine * 0.5)
     
-    if exports["lxr-police"]:RemoveMoney(src, "cash", paroleFine) then
+    if Bridge.RemoveMoney(src, "cash", paroleFine) then
         releaseFromJail(src, "parole")
         TriggerClientEvent("lxr-police:notify", src, "Parole granted. Paid $" .. paroleFine, "success")
-        exports["lxr-police"]:logAudit(src, "jail_parole", "player", src, "Granted parole. Paid $" .. paroleFine)
+        Bridge.logAudit(src, "jail_parole", "player", src, "Granted parole. Paid $" .. paroleFine)
     else
         TriggerClientEvent("lxr-police:notify", src, "Insufficient funds for parole ($" .. paroleFine .. ")", "error")
     end
@@ -250,10 +250,10 @@ AddEventHandler("lxr-police:jail:payBail", function()
     
     local bailAmount = prisonerData[src].fine * 2 -- Bail is double the fine
     
-    if exports["lxr-police"]:RemoveMoney(src, "bank", bailAmount) then
+    if Bridge.RemoveMoney(src, "bank", bailAmount) then
         releaseFromJail(src, "bail_paid")
         TriggerClientEvent("lxr-police:notify", src, "Bail paid. Released. Amount: $" .. bailAmount, "success")
-        exports["lxr-police"]:logAudit(src, "jail_bail", "player", src, "Paid bail. Amount: $" .. bailAmount)
+        Bridge.logAudit(src, "jail_bail", "player", src, "Paid bail. Amount: $" .. bailAmount)
     else
         TriggerClientEvent("lxr-police:notify", src, "Insufficient funds for bail ($" .. bailAmount .. ")", "error")
     end
@@ -288,7 +288,7 @@ RegisterNetEvent("lxr-police:jail:getPrisoners")
 AddEventHandler("lxr-police:jail:getPrisoners", function()
     local src = source
     
-    if not exports["lxr-police"]:IsOfficer(src) then
+    if not Bridge.IsOfficer(src) then
         return
     end
     
