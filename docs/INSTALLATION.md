@@ -1,31 +1,31 @@
 # 📥 Installation Guide
 
-## The Land of Wolves RP - Law Enforcement System
+## LXR Police System — Law Enforcement for RedM
 
-This guide will walk you through installing the most advanced law enforcement system for RedM.
+This guide walks you through a complete installation of the LXR Police System, covering all three supported frameworks: **RSGCore**, **LXRCore**, and **VORP**.
+
+> ⚠️ **Important**: The resource folder **must** be named `lxr-police`.  
+> Any other name will cause the config protection check to abort startup.
 
 ---
 
 ## Prerequisites
 
-Before installing, ensure you have:
-
 ### Server Requirements
-- ✅ **RedM Server** (Latest build recommended)
-- ✅ **Minimum 8GB RAM** (16GB recommended for production)
-- ✅ **MySQL/MariaDB Database**
-- ✅ **Basic server administration knowledge**
+- ✅ **RedM Server** (latest build recommended)
+- ✅ **Minimum 8 GB RAM** (16 GB recommended for production)
+- ✅ **MySQL / MariaDB database**
+- ✅ Basic server administration knowledge
 
-### Framework Requirements
-Choose one of the following:
-- ✅ **RSG-Core** (Recommended) - Latest version
-- ✅ **LXRCore** - Latest version
-- ✅ **VORP** - With compatibility layer
+### Framework — choose one
+- ✅ **RSGCore** (`rsg-core`) — latest version
+- ✅ **LXRCore** (`lxr-core`) — latest version
+- ✅ **VORP** (`vorp_core`) — with `vorp_inventory`
 
 ### Dependencies
-- ✅ **oxmysql** or **mysql-async**
-- ✅ **rsg-target** (Optional, for targeting system)
-- ✅ **rsg-inventory** or compatible inventory system
+- ✅ **oxmysql** (recommended) or **mysql-async**
+- ✅ **rsg-target** / **ox_target** (optional — for targeting interactions)
+- ✅ **rsg-inventory** / **lxr-inventory** / **vorp_inventory** (required for physical items)
 
 ---
 
@@ -35,14 +35,14 @@ Choose one of the following:
 
 ```bash
 cd resources/[law]
-git clone https://github.com/iboss21/LXRCore-Police-System.git tlw-lawman
+git clone https://github.com/iboss21/LXRCore-Police-System.git lxr-police
 ```
 
 ### Method 2: Manual Download
 
 1. Go to [Releases](https://github.com/iboss21/LXRCore-Police-System/releases)
-2. Download the latest `tlw-lawman.zip`
-3. Extract to `resources/[law]/tlw-lawman/`
+2. Download the latest release archive
+3. Extract to `resources/[law]/lxr-police/`
 
 ---
 
@@ -50,13 +50,11 @@ git clone https://github.com/iboss21/LXRCore-Police-System.git tlw-lawman
 
 ### Import SQL Migrations
 
-Import all SQL files in the correct order:
+Import all 15 SQL files **in order**:
 
 ```bash
-# Navigate to the SQL directory
-cd tlw-lawman/sql/migrations/
+cd lxr-police/sql/migrations/
 
-# Import in order
 mysql -u your_username -p your_database < 001_mdt_citizens.sql
 mysql -u your_username -p your_database < 002_mdt_warrants.sql
 mysql -u your_username -p your_database < 003_mdt_bolos.sql
@@ -67,52 +65,61 @@ mysql -u your_username -p your_database < 007_leo_citations.sql
 mysql -u your_username -p your_database < 008_leo_jail.sql
 mysql -u your_username -p your_database < 009_leo_impound.sql
 mysql -u your_username -p your_database < 010_leo_roster.sql
+mysql -u your_username -p your_database < 011_mdt_bounties.sql
+mysql -u your_username -p your_database < 012_mdt_dispatch.sql
+mysql -u your_username -p your_database < 013_mdt_enhancements.sql
+mysql -u your_username -p your_database < 014_k9_system.sql
+mysql -u your_username -p your_database < 015_leo_core_enhancements.sql
+```
+
+Or import all at once on Linux/macOS:
+
+```bash
+for f in lxr-police/sql/migrations/*.sql; do
+    mysql -u your_username -p your_database < "$f"
+done
 ```
 
 ### Verify Tables
-
-Run this query to verify all tables were created:
 
 ```sql
 SHOW TABLES LIKE 'mdt_%';
 SHOW TABLES LIKE 'leo_%';
 ```
 
-You should see 10 tables total.
+You should see **15 tables** total.
 
 ---
 
 ## Step 3: Framework Configuration
 
-### For RSG-Core
+### For RSGCore
 
-#### 1. Add Jobs
-
-Edit `rsg-core/shared/jobs.lua`:
+#### 1. Add Jobs — `rsg-core/shared/jobs.lua`
 
 ```lua
 ['sheriff'] = {
-    label = 'Sheriff Office',
+    label = "Sheriff's Office",
     defaultDuty = true,
     offDutyPay = false,
     grades = {
-        ['0'] = { name = 'Auxiliary Deputy', payment = 50 },
-        ['1'] = { name = 'Deputy Sheriff', payment = 75 },
-        ['2'] = { name = 'Senior Deputy', payment = 100 },
-        ['3'] = { name = 'Under-Sheriff', payment = 125 },
-        ['4'] = { name = 'Sheriff', payment = 150 },
+        ['0'] = { name = 'Auxiliary Deputy',  payment = 50  },
+        ['1'] = { name = 'Deputy Sheriff',    payment = 75  },
+        ['2'] = { name = 'Senior Deputy',     payment = 100 },
+        ['3'] = { name = 'Under-Sheriff',     payment = 125 },
+        ['4'] = { name = 'Sheriff',           payment = 150 },
     },
 },
 ['marshal'] = {
-    label = 'US Marshal',
+    label = 'US Marshal Service',
     defaultDuty = true,
     offDutyPay = false,
     grades = {
-        ['0'] = { name = 'Deputy Marshal', payment = 75 },
-        ['1'] = { name = 'Field Marshal', payment = 100 },
-        ['2'] = { name = 'Senior Marshal', payment = 125 },
-        ['3'] = { name = 'Chief Marshal', payment = 175 },
-        ['4'] = { name = 'US Marshal', payment = 200 },
+        ['0'] = { name = 'Deputy Marshal',  payment = 75  },
+        ['1'] = { name = 'Field Marshal',   payment = 100 },
+        ['2'] = { name = 'Senior Marshal',  payment = 125 },
+        ['3'] = { name = 'Chief Marshal',   payment = 175 },
+        ['4'] = { name = 'US Marshal',      payment = 200 },
     },
 },
 ['ranger'] = {
@@ -120,10 +127,10 @@ Edit `rsg-core/shared/jobs.lua`:
     defaultDuty = true,
     offDutyPay = false,
     grades = {
-        ['0'] = { name = 'Ranger Recruit', payment = 60 },
-        ['1'] = { name = 'Ranger', payment = 85 },
-        ['2'] = { name = 'Senior Ranger', payment = 110 },
-        ['3'] = { name = 'Ranger Captain', payment = 150 },
+        ['0'] = { name = 'Ranger Recruit',   payment = 60  },
+        ['1'] = { name = 'Ranger',           payment = 85  },
+        ['2'] = { name = 'Senior Ranger',    payment = 110 },
+        ['3'] = { name = 'Ranger Captain',   payment = 150 },
         ['4'] = { name = 'Ranger Commander', payment = 180 },
     },
 },
@@ -132,265 +139,231 @@ Edit `rsg-core/shared/jobs.lua`:
     defaultDuty = true,
     offDutyPay = false,
     grades = {
-        ['0'] = { name = 'Constable', payment = 45 },
-        ['1'] = { name = 'Deputy Marshal', payment = 65 },
-        ['2'] = { name = 'Town Marshal', payment = 90 },
-        ['3'] = { name = 'Chief Marshal', payment = 120 },
-        ['4'] = { name = 'Marshal', payment = 140 },
+        ['0'] = { name = 'Constable',      payment = 45  },
+        ['1'] = { name = 'Deputy Marshal', payment = 65  },
+        ['2'] = { name = 'Town Marshal',   payment = 90  },
+        ['3'] = { name = 'Chief Marshal',  payment = 120 },
+        ['4'] = { name = 'Marshal',        payment = 140 },
     },
 },
 ```
 
-#### 2. Add Items
+#### 2. Add Items — `rsg-core/shared/items.lua`
 
-Edit `rsg-core/shared/items.lua`:
+See **[docs/ITEMS.md — RSGCore section](ITEMS.md#rsgcore)** for the complete list of all 43 items.  
+A short excerpt is shown below — add the full block from ITEMS.md:
 
 ```lua
--- Law Enforcement Items
 ['lawman_badge'] = {
-    name = 'lawman_badge',
-    label = 'Lawman Badge',
-    weight = 100,
-    type = 'item',
-    image = 'lawman_badge.png',
-    unique = true,
-    useable = true,
-    shouldClose = true,
-    description = 'Official law enforcement badge'
+    name = 'lawman_badge', label = 'Lawman Badge',
+    weight = 100, type = 'item', image = 'lawman_badge.png',
+    unique = true, useable = true, shouldClose = true,
+    description = 'Official law enforcement badge',
 },
-['temp_deputy_badge'] = {
-    name = 'temp_deputy_badge',
-    label = 'Temporary Deputy Badge',
-    weight = 100,
-    type = 'item',
-    image = 'temp_badge.png',
-    unique = true,
-    useable = false,
-    shouldClose = true,
-    description = 'Temporary deputization badge'
-},
-['evidence_bag'] = {
-    name = 'evidence_bag',
-    label = 'Evidence Bag',
-    weight = 50,
-    type = 'item',
-    image = 'evidence_bag.png',
-    unique = true,
-    useable = true,
-    shouldClose = true,
-    description = 'Bag for collecting evidence'
-},
-['investigation_journal'] = {
-    name = 'investigation_journal',
-    label = 'Investigation Journal',
-    weight = 200,
-    type = 'item',
-    image = 'journal.png',
-    unique = true,
-    useable = true,
-    shouldClose = true,
-    description = 'Journal for documenting investigations'
-},
-['wanted_poster'] = {
-    name = 'wanted_poster',
-    label = 'Wanted Poster',
-    weight = 50,
-    type = 'item',
-    image = 'wanted_poster.png',
-    unique = true,
-    useable = true,
-    shouldClose = true,
-    description = 'Wanted poster with criminal information'
-},
-['telegraph_paper'] = {
-    name = 'telegraph_paper',
-    label = 'Telegraph Message',
-    weight = 10,
-    type = 'item',
-    image = 'telegram.png',
-    unique = true,
-    useable = true,
-    shouldClose = true,
-    description = 'Telegraph message paper'
-},
-['rope'] = {
-    name = 'rope',
-    label = 'Rope',
-    weight = 500,
-    type = 'item',
-    image = 'rope.png',
-    unique = false,
-    useable = true,
-    shouldClose = true,
-    description = 'Strong hemp rope for restraining'
-},
+-- ... (see docs/ITEMS.md for all items)
 ```
+
+#### 3. Copy Item Images
+
+```bash
+cp lxr-police/images/items/*.png rsg-inventory/html/images/
+```
+
+---
 
 ### For LXRCore
 
-Similar process - edit the equivalent files in your LXRCore installation.
+#### 1. Add Jobs — `lxr-core/shared/jobs.lua`
+
+Add the same four job blocks shown in the RSGCore section above.  
+LXRCore uses an identical job table structure.
+
+#### 2. Add Items — `lxr-core/shared/items.lua`
+
+The LXRCore item table structure is identical to RSGCore.  
+See **[docs/ITEMS.md — LXRCore section](ITEMS.md#lxrcore)** for the complete block.
+
+If you are using **ox_inventory** as the LXRCore inventory backend, use the  
+**[Ox Inventory block](ITEMS.md#ox-inventory-lxr-inventory--ox_inventory)** in ITEMS.md instead.
+
+#### 3. Copy Item Images
+
+```bash
+cp lxr-police/images/items/*.png lxr-inventory/html/images/
+```
+
+---
+
+### For VORP
+
+#### 1. Add Jobs
+
+VORP manages jobs through SQL. Run the following against your database:
+
+```sql
+INSERT IGNORE INTO `jobs` (`name`, `label`) VALUES
+  ('sheriff', 'Sheriff''s Office'),
+  ('marshal',  'US Marshal Service'),
+  ('ranger',   'State Rangers'),
+  ('lawman',   'Town Marshal');
+
+INSERT IGNORE INTO `job_grades` (`job_name`, `grade`, `name`, `salary`) VALUES
+  ('sheriff', 0, 'Auxiliary Deputy',  50),
+  ('sheriff', 1, 'Deputy Sheriff',    75),
+  ('sheriff', 2, 'Senior Deputy',    100),
+  ('sheriff', 3, 'Under-Sheriff',    125),
+  ('sheriff', 4, 'Sheriff',          150),
+  ('marshal',  0, 'Deputy Marshal',   75),
+  ('marshal',  1, 'Field Marshal',   100),
+  ('marshal',  2, 'Senior Marshal',  125),
+  ('marshal',  3, 'Chief Marshal',   175),
+  ('marshal',  4, 'US Marshal',      200),
+  ('ranger',   0, 'Ranger Recruit',   60),
+  ('ranger',   1, 'Ranger',           85),
+  ('ranger',   2, 'Senior Ranger',   110),
+  ('ranger',   3, 'Ranger Captain',  150),
+  ('ranger',   4, 'Ranger Commander',180),
+  ('lawman',   0, 'Constable',        45),
+  ('lawman',   1, 'Deputy Marshal',   65),
+  ('lawman',   2, 'Town Marshal',     90),
+  ('lawman',   3, 'Chief Marshal',   120),
+  ('lawman',   4, 'Marshal',         140);
+```
+
+> **Note**: Column names may differ between VORP versions. Adjust to match your `jobs` table schema.
+
+#### 2. Add Items
+
+See **[docs/ITEMS.md — VORP section](ITEMS.md#vorp)** for the complete SQL `INSERT` statements covering all 43 items.
+
+#### 3. Copy Item Images
+
+```bash
+cp lxr-police/images/items/*.png vorp_inventory/html/images/
+```
 
 ---
 
 ## Step 4: Resource Configuration
 
-### 1. Basic Configuration
+Open **`config/config.lua`** — all settings live in this single file.
 
-Edit `config/config_main.lua`:
+### Set Framework
 
 ```lua
--- Set your server information
-Config.Branding = {
-    ServerName = "Your Server Name",
-    Website = "www.yourserver.com",
-    Discord = "discord.gg/yourserver",
-}
+-- "auto" detects lxr-core → rsg-core → vorp_core automatically
+Config.Framework = "auto"
 
--- Set your framework
-Config.Framework = {
-    Type = "rsgcore", -- or "lxrcore"
-}
+-- Or force a specific framework:
+-- Config.Framework = "lxrcore"
+-- Config.Framework = "rsgcore"
+-- Config.Framework = "vorp"
+```
 
--- Configure your Discord webhook
+### Set Discord Webhook (Audit Logs)
+
+```lua
 Config.Logging = {
-    Webhook = "https://discord.com/api/webhooks/your_webhook_here",
+    Webhook       = "https://discord.com/api/webhooks/YOUR_WEBHOOK_HERE",
+    -- ...
 }
 ```
 
-### 2. Station Configuration
-
-Adjust station locations if needed in `config/config_main.lua`:
+### Adjust Station Coordinates
 
 ```lua
 Config.Stations = {
     ["valentine"] = {
-        Enabled = true, -- Enable/disable stations
-        Coords = vec3(-275.5, 804.0, 119.0),
-        -- ... other settings
+        coords = vec3(-275.5, 804.0, 119.0),
+        -- ... adjust to your map
     },
 }
 ```
 
-### 3. Crime Configuration
-
-Customize crimes, fines, and jail times in `config/config_main.lua`:
+### Toggle Features
 
 ```lua
-Config.Crimes = {
-    ["murder"] = {
-        Enabled = true,
-        JailTime = 3600,  -- Adjust time
-        Fine = 500,       -- Adjust fine
-        Bounty = 1000,    -- Adjust bounty
-    },
-}
-```
-
-### 4. UI Configuration
-
-Customize the UI theme in `config/config_main.lua`:
-
-```lua
-Config.UI = {
-    Theme = "western_authentic",
-    Colors = {
-        Primary = "#8B7355",
-        -- ... customize colors
-    },
+Config.Features = {
+    EnableWarrantSystem  = true,
+    EnableBountySystem   = true,
+    EnableK9Unit         = true,
+    EnableJailSystem     = true,
+    EnableEvidenceSystem = true,
+    -- ...
 }
 ```
 
 ---
 
-## Step 5: Server.cfg Setup
-
-Add the resource to your `server.cfg`:
+## Step 5: server.cfg Setup
 
 ```cfg
-# Framework (if not already loaded)
-ensure rsg-core
-
-# Dependencies
+# ── Dependencies ──────────────────────────────
 ensure oxmysql
-ensure rsg-target
 
-# Law Enforcement System
-ensure tlw-lawman
+# ── Framework (whichever you use) ─────────────
+ensure rsg-core      # or lxr-core / vorp_core
+
+# ── Inventory ─────────────────────────────────
+ensure rsg-inventory # or lxr-inventory / vorp_inventory
+
+# ── Targeting (optional) ──────────────────────
+ensure rsg-target    # or ox_target
+
+# ── LXR Police System ─────────────────────────
+ensure lxr-police
 ```
 
-**Important**: Make sure `tlw-lawman` loads AFTER your framework and dependencies.
+> **Rule**: `lxr-police` must load **after** your framework, inventory, and oxmysql.
 
 ---
 
-## Step 6: Permissions & Admin Setup
+## Step 6: Permissions & First Login
 
-### Grant Admin Access
+### Assign a LEO Job In-Game
 
-Use your framework's admin commands to set yourself as sheriff:
-
-#### RSG-Core
+#### RSGCore / LXRCore
 ```
-/job sheriff 4
+/setjob [player_id] sheriff 4
 ```
 
-#### In-Game Console
-```lua
-/setjob [your_id] sheriff 4
+#### VORP
+```
+/setjob [player_id] sheriff 4
 ```
 
 ### Test Basic Functions
 
 1. Go on duty at Valentine Sheriff's Office
-2. Test opening the MDT (`/mdt`)
-3. Test arresting a player (`/cuff [id]`)
-4. Test the jail system (`/jail [id] 300`)
+2. Open the MDT with `/mdt`
+3. Test `/cuff [player_id]`
+4. Test `/jail [player_id] 300`
 
 ---
 
-## Step 7: Item Images
-
-### Add Item Images
-
-Place item images in your inventory resource:
-
-```
-rsg-inventory/html/images/
-├── lawman_badge.png
-├── temp_badge.png
-├── evidence_bag.png
-├── investigation_journal.png
-├── wanted_poster.png
-├── telegram.png
-└── rope.png
-```
-
-Download images from: `tlw-lawman/images/items/`
-
----
-
-## Step 8: Verify Installation
+## Step 7: Verify Installation
 
 ### Checklist
 
-- [ ] Database tables created successfully
-- [ ] Jobs added to framework
-- [ ] Items added to framework
-- [ ] Resource starts without errors
-- [ ] Can go on/off duty
+- [ ] All 15 database tables created successfully
+- [ ] All four law jobs added to framework
+- [ ] All items registered in inventory system
+- [ ] Item images copied to inventory image folder
+- [ ] Resource starts without console errors
+- [ ] Bridge detection log appears: `[lxr-police] Bridge loaded — framework: X ✓`
+- [ ] Can go on / off duty
 - [ ] MDT opens correctly
-- [ ] Can arrest players
+- [ ] Can arrest players (rope hogtie)
 - [ ] Jail system works
-- [ ] Evidence collection works
+- [ ] Evidence collection creates physical items
 - [ ] UI displays correctly
 
-### Check Logs
+### Success Log
 
-Monitor your server console for:
+On a clean start you should see:
 
 ```
-[TLoW] Law Enforcement Configuration Loaded Successfully!
-[TLoW] Version: 1.0.0
-[TLoW] Website: www.wolves.land
+[lxr-police] Bridge loaded — framework: rsgcore ✓
 ```
 
 ---
@@ -399,77 +372,51 @@ Monitor your server console for:
 
 ### Resource Won't Start
 
-**Problem**: Resource fails to start
-
-**Solutions**:
-1. Check for syntax errors in config files
-2. Ensure all dependencies are loaded
-3. Verify framework is running
-4. Check server console for specific errors
+| Symptom | Fix |
+|---|---|
+| `Resource must be named "lxr-police"` | Rename the folder to `lxr-police` |
+| `No supported framework detected` | Ensure your framework resource is started **before** `lxr-police` |
+| Lua syntax errors | Check `config/config.lua` for missing commas / brackets |
 
 ### Database Errors
 
-**Problem**: SQL errors in console
-
-**Solutions**:
-1. Verify all migration files were imported
-2. Check database credentials
-3. Ensure database user has proper permissions
-4. Run migrations again in correct order
+| Symptom | Fix |
+|---|---|
+| `Table 'mdt_citizens' doesn't exist` | Import all 15 SQL migration files in order |
+| `Access denied` | Ensure DB user has `CREATE`, `INSERT`, `SELECT`, `UPDATE`, `DELETE` permissions |
+| Duplicate-key errors on re-import | Safe to ignore — migrations use `CREATE TABLE IF NOT EXISTS` |
 
 ### Items Not Working
 
-**Problem**: Items don't show up or work
-
-**Solutions**:
-1. Verify items were added to framework
-2. Check item images are in correct folder
-3. Restart inventory resource
-4. Clear client cache
+| Symptom | Fix |
+|---|---|
+| Items not visible in inventory | Verify items were added to the framework items file and inventory resource restarted |
+| Broken image (grey box) | Copy PNG files from `lxr-police/images/items/` to your inventory images folder |
+| `"item not found"` in server console | Item name in config doesn't match item name in framework — check spelling |
 
 ### UI Not Showing
 
-**Problem**: MDT UI doesn't open
-
-**Solutions**:
-1. Check browser console (F8 → Console)
-2. Verify HTML/CSS files are present
-3. Check NUI callback registrations
-4. Try `/mdt` command again
+| Symptom | Fix |
+|---|---|
+| MDT blank / not opening | Open F8 console, check for JS errors; verify `html/` files are present |
+| NUI focus stuck | Type `/mdt` again or use `nui_forceFocus 0` in console |
 
 ### Permission Issues
 
-**Problem**: Can't use certain features
-
-**Solutions**:
-1. Verify you have correct job and grade
-2. Check `Config.Permissions` settings
-3. Ensure rank meets minimum requirement
-4. Use `/duty` to go on duty
-
----
-
-## Next Steps
-
-After successful installation:
-
-1. Read the [Configuration Guide](CONFIGURATION.md)
-2. Review [Commands & Features](FEATURES.md)
-3. Set up additional stations
-4. Configure crimes for your server
-5. Train your staff on the system
-6. Join our [Discord](https://discord.gg/wolves) for support
+| Symptom | Fix |
+|---|---|
+| "You don't have permission" | Confirm job name and grade with `/myjob` or equivalent command |
+| MDT read-only | Grade must be ≥ 1 for edit access; grade ≥ 3 for admin |
 
 ---
 
 ## Getting Help
 
-If you encounter issues:
-
-1. Check the [Troubleshooting](#troubleshooting) section
-2. Search [GitHub Issues](https://github.com/iboss21/LXRCore-Police-System/issues)
-3. Join our [Discord Server](https://discord.gg/wolves)
-4. Create a [New Issue](https://github.com/iboss21/LXRCore-Police-System/issues/new)
+1. Check the [Troubleshooting](#troubleshooting) section above
+2. Review [docs/ITEMS.md](ITEMS.md) for item registration details
+3. Search [GitHub Issues](https://github.com/iboss21/LXRCore-Police-System/issues)
+4. Join our [Discord Server](https://discord.gg/CrKcWdfd3A)
+5. Create a [New Issue](https://github.com/iboss21/LXRCore-Police-System/issues/new)
 
 ---
 
@@ -477,10 +424,8 @@ If you encounter issues:
 
 **Installation Complete!** 🎉
 
-Welcome to **The Land of Wolves RP - Law Enforcement System**
+Welcome to **LXR Police System**
 
-*The world's most advanced law enforcement system for RedM*
-
-[⬅ Back to README](README.md) | [Configuration Guide ➡](CONFIGURATION.md)
+[⬅ Back to README](../README.md) | [Items Reference ➡](ITEMS.md) | [API Reference ➡](API.md)
 
 </div>

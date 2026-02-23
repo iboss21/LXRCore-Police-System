@@ -32,6 +32,18 @@ Sheriffs, US Marshals, State Rangers, Town Marshals — all in one resource.
 
 ---
 
+## Screenshots
+
+| MDT System Overview | Period-Accurate 1899 UI |
+|---|---|
+| ![MDT System Overview](screenshots/mdt-system-overview.png) | ![MDT 1899 Period Accurate](screenshots/mdt-1899-period-accurate.png) |
+
+| Western Command Center | Parchment UI Preview |
+|---|---|
+| ![Western Command Center](screenshots/mdt-western-command-center.png) | ![UI Parchment Preview](screenshots/ui-parchment-preview.png) |
+
+---
+
 ## Requirements
 
 - RedM Server (latest)
@@ -46,13 +58,15 @@ Sheriffs, US Marshals, State Rangers, Town Marshals — all in one resource.
 # 1. Clone into your resources folder — the folder MUST be named lxr-police
 git clone https://github.com/iboss21/LXRCore-Police-System lxr-police
 
-# 2. Import SQL migrations in order
+# 2. Import all 15 SQL migrations in order
 for f in lxr-police/sql/migrations/*.sql; do mysql -u root -p your_db < "$f"; done
 
 # 3. Add to server.cfg
 ensure oxmysql
 ensure lxr-police
 ```
+
+Full step-by-step guide: [`docs/INSTALLATION.md`](docs/INSTALLATION.md)
 
 ### Configuration
 
@@ -70,6 +84,15 @@ Key sections:
 | `Config.DebugSettings` | Enable debug output during setup |
 
 > **Locales**: Copy `config/locales/en.lua` to `config/locales/ka.lua` (or your language) and translate as needed.
+
+### Items Setup
+
+All 43 inventory items (badges, evidence bags, documents, wearables) must be registered in your framework before starting the resource.
+
+See **[`docs/ITEMS.md`](docs/ITEMS.md)** for:
+- Complete item tables for RSGCore, LXRCore (ox_inventory), and VORP
+- Item image filenames and copy commands
+- Post-install verification checklist
 
 ---
 
@@ -99,7 +122,9 @@ exports['lxr-police']:CreateEvidence(type, data, src) -- number (id)
 ```
 
 Full event list: [`docs/EVENTS.md`](docs/EVENTS.md)  
-API reference: [`docs/API.md`](docs/API.md)
+API reference: [`docs/API.md`](docs/API.md)  
+Items reference: [`docs/ITEMS.md`](docs/ITEMS.md)  
+Installation guide: [`docs/INSTALLATION.md`](docs/INSTALLATION.md)
 
 ---
 
