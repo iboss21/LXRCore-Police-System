@@ -44,16 +44,9 @@ files {
     'html/images/**/*',
 }
 
--- Shared Configuration
+-- Shared Configuration (single supreme config — all systems in one file)
 shared_scripts {
     'config/config.lua',
-    'config/config_main.lua',
-    'config/config_advanced.lua',
-    'config/leo_core.lua',
-    'config/wearable_items.lua',
-    'config/physical_items.lua',
-    'config/k9_system.lua',
-    'config/statutes.lua',
     'config/locales/en.lua',
     'shared/bridge.lua',
 }

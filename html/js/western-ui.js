@@ -485,7 +485,7 @@ function loadWantedTab() {
 }
 
 function displayWantedPosters(posters) {
-    const container = document.getElementById('wanted-posters-grid');
+    const container = document.getElementById('wanted-posters-grid') || document.getElementById('wanted-posters');
     if (!container) return;
     
     if (posters.length === 0) {
@@ -495,27 +495,14 @@ function displayWantedPosters(posters) {
     
     let html = '';
     posters.forEach(poster => {
-        const dangerClass = poster.danger_level || 'medium';
+        const statusClass = poster.status === 'active' ? 'badge-wanted' : 'badge-closed';
         html += `
-            <div class="wanted-poster ${dangerClass}">
-                <div class="poster-header">
-                    <h2>WANTED</h2>
-                    <div class="danger-badge ${dangerClass}">${poster.danger_level.toUpperCase()}</div>
-                </div>
-                <div class="poster-mugshot">
-                    ${poster.mugshot ? `<img src="${poster.mugshot}" alt="Suspect">` : '<div class="no-photo-poster">No Photo</div>'}
-                </div>
-                <div class="poster-info">
-                    <h3>${poster.citizen_name}</h3>
-                    <p class="poster-number">${poster.poster_number}</p>
-                    <p class="poster-charges">${poster.title}</p>
-                    <p class="poster-reward">REWARD: $${poster.reward_amount}</p>
-                    ${poster.last_known_location ? `<p class="poster-location">Last Seen: ${poster.last_known_location}</p>` : ''}
-                </div>
-                <div class="poster-actions">
-                    <button class="western-button small" onclick="viewPoster(${poster.id})">Details</button>
-                    ${poster.status === 'active' ? `<button class="western-button small success" onclick="markCaptured(${poster.id})">Captured</button>` : ''}
-                </div>
+            <div class="wanted-card" data-label="✦  WANTED  ✦" onclick="viewPoster(${poster.id})">
+                <div class="wanted-name">${poster.citizen_name}</div>
+                <div class="wanted-bounty">$${Number(poster.reward_amount).toLocaleString()}</div>
+                <div style="font-size:0.7rem;color:var(--ink-dim);margin:4px 0">${poster.title}</div>
+                <div class="wanted-status ${statusClass}">${poster.status === 'active' ? 'Dead or Alive' : 'Captured'}</div>
+                ${poster.status === 'active' ? `<div style="margin-top:8px"><button class="western-button secondary" style="font-size:0.65rem;padding:3px 10px" onclick="event.stopPropagation();markCaptured(${poster.id})">Mark Captured</button></div>` : ''}
             </div>
         `;
     });
@@ -741,20 +728,19 @@ function closeModal() {
 // ============================================================================
 
 function showNotification(message, type = 'info') {
+    let container = document.getElementById('notification-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'notification-container';
+        container.className = 'notification-container';
+        document.body.appendChild(container);
+    }
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    container.appendChild(notification);
+    // Remove after CSS animation completes (4.6s delay + 0.4s duration = 5s)
+    setTimeout(() => notification.remove(), 5000);
 }
 
 // ============================================================================
@@ -762,10 +748,10 @@ function showNotification(message, type = 'info') {
 // ============================================================================
 
 function getResourceName() {
-    if (window.GetParentResourceName) {
-        return window.getResourceName();
+    // GetParentResourceName is available as a global in both FiveM and RedM NUI
+    if (typeof GetParentResourceName === 'function') {
+        return GetParentResourceName();
     }
-    // Fallback for development/testing
     return 'lxr-police';
 }
 
