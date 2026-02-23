@@ -6,21 +6,30 @@
     ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
                                                               
-    🐺 The Land of Wolves - LXRCore Police System
+    🐺 LXR Core - Police System
     "Professional Law Enforcement & Management System"
     
-    Version: 1.0.0
-    Author: iBoss
-    Website: www.wolves.land
-    Server: The Land of Wolves
-    
+    ═══════════════════════════════════════════════════════════════════════════════
+    SERVER INFORMATION
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Server:      The Land of Wolves 🐺
+    Developer:   iBoss21 / The Lux Empire
+    Website:     https://www.wolves.land
+    Discord:     https://discord.gg/CrKcWdfd3A
+    GitHub:      https://github.com/iBoss21
+    Store:       https://theluxempire.tebex.io
+
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Version:     1.0.0
+
     CLIENT SCRIPT - JOURNAL SYSTEM
     Period-accurate officer's journal for handwritten field notes. Replace modern
     MDT with authentic 1899 notebook system. Officers write observations, suspect
     descriptions, and case notes in a personal journal.
     
-    © 2026 iBoss | The Land of Wolves | www.wolves.land
-    License: All Rights Reserved
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
 
 local journalOpen = false

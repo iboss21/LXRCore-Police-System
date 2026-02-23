@@ -6,33 +6,43 @@
     ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
                                                               
-    🐺 The Land of Wolves - LXRCore Police System
+    🐺 LXR Core - Police System
     "Professional Law Enforcement & Management System"
     
-    Version: 1.0.0
-    Author: iBoss
-    Website: www.wolves.land
-    Server: The Land of Wolves
-    
+    ═══════════════════════════════════════════════════════════════════════════════
+    SERVER INFORMATION
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Server:      The Land of Wolves 🐺
+    Developer:   iBoss21 / The Lux Empire
+    Website:     https://www.wolves.land
+    Discord:     https://discord.gg/CrKcWdfd3A
+    GitHub:      https://github.com/iBoss21
+    Store:       https://theluxempire.tebex.io
+
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Version:     1.0.0
+
     FX MANIFEST
     All resource configuration and file loading for the LXRCore Police System.
     Compatible with RSGCore / LXRCore frameworks for RedM.
     
     Modify values below to customize The Land of Wolves police experience.
     
-    © 2026 iBoss | The Land of Wolves | www.wolves.land
-    License: All Rights Reserved
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
 
 fx_version 'cerulean'
-games { 'rdr3' }
+game       'rdr3'
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 lua54 'yes'
 
-author 'The Land of Wolves RP Team'
+name        'lxr-police'
+author      'iBoss21 / The Lux Empire | wolves.land'
 description 'The World\'s Most Advanced & Authentic 1899 Wild West Law Enforcement System for RedM'
-version '1.0.0'
+version     '1.0.0'
 
 -- UI Files
 ui_page 'html/index.html'
