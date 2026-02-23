@@ -126,16 +126,19 @@ server_exports {
 
 -- Dependencies
 dependencies {
-    'rsg-core',  -- or 'lxrcore'
     'oxmysql',
 }
 
--- Optional Dependencies
+-- Optional Dependencies (framework auto-detected at runtime)
 optional_dependencies {
+    'lxr-core',
+    'lxr-inventory',
+    'rsg-core',
     'rsg-target',
     'rsg-inventory',
     'vorp_core',
     'vorp_inventory',
+    'ox_target',
 }
 
 -- Provide

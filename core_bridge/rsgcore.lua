@@ -1,25 +1,27 @@
 --[[
-    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
-    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
-    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
-    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
-    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
-    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
-                                                              
-    🐺 The Land of Wolves - LXRCore Police System
-    "Professional Law Enforcement & Management System"
-    
-    Version: 1.0.0
-    Author: iBoss
-    Website: www.wolves.land
-    Server: The Land of Wolves
-    
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ███████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
+    ═══════════════════════════════════════════════════════════════════════════════
     CORE BRIDGE - RSGCORE
+    ═══════════════════════════════════════════════════════════════════════════════
+
     Framework bridge implementation for RSGCore. Provides unified API for
-    player management, job checks, and permission validation.
-    
-    © 2026 iBoss | The Land of Wolves | www.wolves.land
-    License: All Rights Reserved
+    player management, job checks, inventory, notifications, and permission
+    validation. Events follow the RSGCore naming convention.
+
+    Developer:   iBoss21 / The Lux Empire
+    Website:     https://www.wolves.land
+    Discord:     https://discord.gg/CrKcWdfd3A
+    GitHub:      https://github.com/iBoss21
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
 
 -- RSGCore Framework Bridge
