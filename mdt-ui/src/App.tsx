@@ -11,11 +11,11 @@ function App() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-blue-900 text-white p-4 flex justify-between">
-        <h1 className="text-2xl font-bold">{t("mdt_title")}</h1>
+    <div className="min-h-screen" style={{ background: "var(--parchment-dark, #A88D68)", fontFamily: "var(--font-body, 'Courier Prime', 'Courier New', monospace)" }}>
+      <header style={{ background: "var(--sepia-dark, #24160A)", borderBottom: "2px solid var(--sepia, #3E2712)", padding: "12px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1 style={{ fontFamily: "var(--font-heading, 'Cinzel', 'Times New Roman', serif)", color: "var(--gold-light, #D4A85A)", fontSize: "1.25rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>{t("mdt_title")}</h1>
       </header>
-      <main className="p-6 grid grid-cols-2 gap-6">
+      <main className="p-6 grid grid-cols-2 gap-6" style={{ background: "var(--parchment, #C8AA82)" }}>
         <CitizenSearch />
         <CitationForm />
         <ArrestReport />
