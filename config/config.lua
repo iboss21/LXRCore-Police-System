@@ -155,7 +155,7 @@ Config.FrameworkSettings = {
 }
 
 
-Config = {}
+Config = Config or {}
 
 -- Framework Configuration
 Config.Framework = "auto" -- "lxrcore", "rsgcore", "vorp", "auto"
