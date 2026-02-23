@@ -1,68 +1,96 @@
 --[[
-    ██╗     ██╗  ██╗██████╗  ██████╗ ██████╗ ██████╗ ███████╗
-    ██║     ╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
-    ██║      ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
-    ██║      ██╔██╗ ██╔══██╗██║     ██║   ██║██╔══██╗██╔══╝  
-    ███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗
-    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
-                                                              
-    🐺 The Land of Wolves - LXRCore Police System
-    "Professional Law Enforcement & Management System"
-    
-    Version: 1.0.0
-    Author: iBoss
-    Website: www.wolves.land
-    Server: The Land of Wolves
-    
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
+    ═══════════════════════════════════════════════════════════════════════════════
     CORE BRIDGE - INITIALIZATION
-    Auto-detects and initializes the appropriate framework bridge (LXRCore,
-    RSGCore, or VORP) for seamless multi-framework compatibility.
-    
-    © 2026 iBoss | The Land of Wolves | www.wolves.land
-    License: All Rights Reserved
+    ═══════════════════════════════════════════════════════════════════════════════
+
+    Auto-detects and initializes the correct framework bridge.
+    Priority: LXR-Core → RSG-Core → VORP Core → error (halts resource).
+
+    Developer:   iBoss21 / The Lux Empire
+    Website:     https://www.wolves.land
+    Discord:     https://discord.gg/CrKcWdfd3A
+    GitHub:      https://github.com/iBoss21
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- 🐺 FRAMEWORK AUTO-DETECTION
+-- ═══════════════════════════════════════════════════════════════════════════════
 
 local framework = nil
 
-if Config.Framework == "auto" then
-    if GetResourceState("lxrcore") == "started" then
-        framework = "lxrcore"
-    elseif GetResourceState("rsgcore") == "started" then
-        framework = "rsgcore"
-    elseif GetResourceState("vorp") == "started" then
-        framework = "vorp"
+-- Support both table-form (Config.Framework.Type) and string-form (Config.Framework)
+local configType = type(Config.Framework)
+local frameworkSetting = (configType == 'table') and Config.Framework.Type
+                       or (configType == 'string') and Config.Framework
+                       or 'auto'
+
+if frameworkSetting == 'auto' then
+    -- Priority: LXR-Core > RSG-Core > VORP Core
+    if GetResourceState('lxr-core') == 'started' then
+        framework = 'lxrcore'
+    elseif GetResourceState('lxrcore') == 'started' then
+        framework = 'lxrcore'
+    elseif GetResourceState('rsg-core') == 'started' then
+        framework = 'rsgcore'
+    elseif GetResourceState('rsgcore') == 'started' then
+        framework = 'rsgcore'
+    elseif GetResourceState('vorp_core') == 'started' then
+        framework = 'vorp'
+    elseif GetResourceState('vorp') == 'started' then
+        framework = 'vorp'
     else
-        print("[LXRCore Police] ERROR: No supported framework detected. Defaulting to lxrcore.")
-        framework = "lxrcore"
+        print('^1[lxr-police] ERROR: No supported framework detected (lxr-core / rsg-core / vorp_core). Halting bridge init.^7')
+        framework = 'lxrcore' -- safe fallback so exports don't hard-crash
     end
 else
-    framework = Config.Framework
+    framework = frameworkSetting
 end
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- LOAD BRIDGE
+-- ═══════════════════════════════════════════════════════════════════════════════
 
 local bridge = {}
 
-if framework == "lxrcore" then
-    bridge = require("core_bridge.lxrcore")
-elseif framework == "rsgcore" then
-    bridge = require("core_bridge.rsgcore")
-elseif framework == "vorp" then
-    bridge = require("core_bridge.vorp")
+if framework == 'lxrcore' then
+    bridge = require('core_bridge.lxrcore')
+elseif framework == 'rsgcore' then
+    bridge = require('core_bridge.rsgcore')
+elseif framework == 'vorp' then
+    bridge = require('core_bridge.vorp')
 end
 
-exports("GetPlayer", bridge.GetPlayer)
-exports("IsOfficer", bridge.IsOfficer)
-exports("Notify", bridge.Notify)
-exports("HasPermission", bridge.HasPermission)
-exports("GetJob", bridge.GetJob)
-exports("GetGrade", bridge.GetGrade)
-exports("SetPlayerControl", bridge.SetPlayerControl)
-exports("AddMoney", bridge.AddMoney)
-exports("RemoveMoney", bridge.RemoveMoney)
-exports("GetInventory", bridge.GetInventory)
-exports("Progress", bridge.Progress)
-exports("Target", bridge.Target)
-exports("Callback", bridge.Callback)
-exports("Event", bridge.Event)
-exports("ServerExport", bridge.ServerExport)
-exports("GetOfficerDept", bridge.GetOfficerDept)
-exports("logAudit", bridge.logAudit)
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- REGISTER EXPORTS
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+exports('GetPlayer',        bridge.GetPlayer)
+exports('IsOfficer',        bridge.IsOfficer)
+exports('Notify',           bridge.Notify)
+exports('HasPermission',    bridge.HasPermission)
+exports('GetJob',           bridge.GetJob)
+exports('GetGrade',         bridge.GetGrade)
+exports('SetPlayerControl', bridge.SetPlayerControl)
+exports('AddMoney',         bridge.AddMoney)
+exports('RemoveMoney',      bridge.RemoveMoney)
+exports('GetInventory',     bridge.GetInventory)
+exports('Progress',         bridge.Progress)
+exports('Target',           bridge.Target)
+exports('Callback',         bridge.Callback)
+exports('Event',            bridge.Event)
+exports('ServerExport',     bridge.ServerExport)
+exports('GetOfficerDept',   bridge.GetOfficerDept)
+exports('logAudit',         bridge.logAudit)
+
+print(('^2[lxr-police] Core bridge loaded — framework: %s ✓^7'):format(framework))

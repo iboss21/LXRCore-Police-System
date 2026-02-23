@@ -1,10 +1,25 @@
 --[[
-    ╔════════════════════════════════════════════════════════════╗
-    ║  Enhanced Duty System - Server Authoritative             ║
-    ║  Hard Enforcement: No Powers Off-Duty                     ║
-    ║  AFK Prevention, Audit Logging, Payroll Tracking         ║
-    ╚════════════════════════════════════════════════════════════╝
+    ██╗     ██╗  ██╗██████╗        ██████╗ ██████╗ ██████╗ ███████╗
+    ██║     ╚██╗██╔╝██╔══██╗      ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+    ██║      ╚███╔╝ ██████╔╝█████╗██║     ██║   ██║██████╔╝█████╗
+    ██║      ██╔██╗ ██╔══██╗╚════╝██║     ██║   ██║██╔══██╗██╔══╝
+    ██████╗██╔╝ ██╗██║  ██║      ╚██████╗╚██████╔╝██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝       ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+    🐺 LXR Core - Police System
+
+    Version: 1.0.0
+    Developer: iBoss21 / The Lux Empire
+    Website:   https://www.wolves.land
+    Discord:   https://discord.gg/CrKcWdfd3A
+    GitHub:    https://github.com/iBoss21
+
+    SERVER SCRIPT - DUTY SYSTEM
+    Hard-enforcement duty state management for law enforcement officers.
+
+    © 2026 iBoss21 / The Lux Empire | wolves.land | All Rights Reserved
 ]]
+
 
 -- Duty state tracking (server-authoritative)
 local dutyStates = {}

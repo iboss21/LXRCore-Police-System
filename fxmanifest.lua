@@ -79,6 +79,7 @@ client_scripts {
 -- Server Scripts
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
+    'server/versionchecker.lua',
     'core_bridge/init.lua',
     'server/duty_system.lua',
     'server/anti_abuse.lua',
@@ -133,6 +134,8 @@ dependencies {
 optional_dependencies {
     'rsg-target',
     'rsg-inventory',
+    'vorp_core',
+    'vorp_inventory',
 }
 
 -- Provide
